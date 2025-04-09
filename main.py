@@ -6,6 +6,7 @@ from blackBishop import BlackBishop
 from enemies import enemies,Bullet
 from block import Block
 from boss import Boss
+from skill import PlayerSkill, EnemiesSkill
 
 class RunGame:
     def __init__(self):
@@ -20,6 +21,7 @@ class RunGame:
         self.__is_in_shop = False
         self.__is_gameover = False
         self.__key_history = []
+        self.__isendless = False
         self.__menu = pg.transform.scale(pg.image.load("menu.png"), (800, 600))
         self.__shop_background = pg.transform.scale(pg.image.load("shop.png"), (800, 600))
         self.__background1 = pg.transform.scale(pg.image.load("bg1.png"), (800, 600))
@@ -142,9 +144,12 @@ class RunGame:
             Bullet.clear_player_bullet()
             self.__is_gameover = True
 
+    def endlessmode(self):
+        pass
+
     def gameover(self):
         self.__isphase3 = False
-        # self.__isendless = False
+        self.__isendless = False
         
 
     def game_event(self):
@@ -160,14 +165,11 @@ class RunGame:
             self.phase2()
         elif self.__isphase3:
             self.boss_phase()
+        elif self.__isendless:
+            self.endlessmode()
         if self.__is_gameover:
             self.gameover()
-        #     if pg.key.get_pressed()[pg.K_SPACE]:
-        #         self.__is_menu = True
-        #         self.__is_phase1  = False
-        #         self.__is_phase2  = False
-        #         self.__is_phase3  = False
-        #         self.__is_in_shop  = False
+            
         if self.__player.get_health() <= 0:#when loss
             loss_text = pg.font.Font(None, 36).render("Game Over", True, (0, 0, 0))
             self.__screen.blit(loss_text, (200,200))
@@ -206,6 +208,10 @@ class RunGame:
             self.__screen.blit(Bullet.get_bullet(), tuple(bullet.get_position()))
         for bullet in Bullet.get_player_bullet():
             self.__screen.blit(Bullet.get_player_bullet_pic(), tuple(bullet.get_position()))
+        for skill in PlayerSkill.get_skill_list():
+            self.__screen.blit(PlayerSkill.get_skill(), tuple(skill.get_position()))
+        for skill in EnemiesSkill.get_skill_list():
+            self.__screen.blit(EnemiesSkill.get_skill(), tuple(skill.get_position()))
         if self.__is_in_shop:
             self.__screen.blit(self.__shop_background,(0,0))
             self.__player.print_stat(self.__screen, pg.font.Font(None, 42))

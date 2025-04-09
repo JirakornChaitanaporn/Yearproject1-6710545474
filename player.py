@@ -2,6 +2,7 @@ import pygame as pg
 import math
 import random
 from Bullet import Bullet
+from skill import PlayerSkill
 
 class Player:
     __coin = 0
@@ -21,10 +22,10 @@ class Player:
         self.__is_attacking = False
         self.__direction = "right"
         self.__position_to_player = 25
-        self.__weapon[0][0] = pg.transform.scale(self.__weapon[0][0], (80, 80))
-        self.__weapon[0][1] = pg.transform.scale(self.__weapon[0][1], (80, 80))
-        self.__weapon[1][0] = pg.transform.scale(self.__weapon[1][0], (80, 80))
-        self.__weapon[1][1] = pg.transform.scale(self.__weapon[1][1], (80, 80))
+        self.__weapon[0][0] = pg.transform.scale(self.__weapon[0][0], (90, 80))
+        self.__weapon[0][1] = pg.transform.scale(self.__weapon[0][1], (90, 80))
+        self.__weapon[1][0] = pg.transform.scale(self.__weapon[1][0], (90, 80))
+        self.__weapon[1][1] = pg.transform.scale(self.__weapon[1][1], (90, 80))
 
         self.__current_weapon = self.__weapon[0][0]
         self.__attack_style = "melee"
@@ -123,7 +124,7 @@ class Player:
         if self.__attack_style == "melee":
             if current_time - self.__last_attack_time >= self.__attack_cooldown and self.__key_pressed(pg.mouse.get_pressed()[0]):
                     for enemy in enemies_list:
-                        if (self.__get_distance(self.__position, enemy.get_position())) <= 80 and\
+                        if (self.__get_distance(self.__position, enemy.get_position())) <= 100 and\
                             ((self.__sword_is_left and (self.__position[0]> enemy.get_position()[0]))or \
                              (not self.__sword_is_left and (self.__position[0] < enemy.get_position()[0]))):#correct collision by using swing animation laterrrrr
                             self.__is_attacking = True
@@ -131,18 +132,25 @@ class Player:
                             self.__last_attack_time = current_time
         else:
             if current_time - self.__last_attack_time >= 500 and self.__key_pressed(pg.mouse.get_pressed()[0]):
-                # if random.random() :
-                    # use skill
-                #else:
-                Bullet.create_bullet(self, "player")
-                self.__last_attack_time = current_time
+                if (int(random.random() * 15) + 1) == 1:
+                    PlayerSkill.create_player_skill(self)
+                else:
+                    Bullet.create_bullet(self, "player")
+                    self.__last_attack_time = current_time
+            PlayerSkill.move_player_skill()
             Bullet.bullet_movement(6, "player")
 
             for bullet in Bullet.get_player_bullet():
                 for enemies in enemies_list:
                     if collision(bullet.get_position(), enemies.get_position()):
-                        enemies.get_attacked(2)
+                        enemies.get_attacked(4)
                         Bullet.remove_player_bullet(bullet)
+            for skill in PlayerSkill.get_skill_list():
+                for enemies in enemies_list:
+                    if collision(skill.get_position(), enemies.get_position()):
+                        enemies.set_position([(int(random.random() * 700) + 1), (int(random.random() * 500) + 1)])
+                        enemies.get_attacked(4)
+                        Bullet.remove_player_bullet(skill)
     @classmethod
     def change_coin(cls,coin):
         cls.__coin += coin

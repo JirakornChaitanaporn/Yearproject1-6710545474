@@ -5,10 +5,11 @@ from player import Player
 from block import Block
 import math
 from Bullet import Bullet
+from skill import EnemiesSkill
 
 class Boss(enemies):
     def __init__(self, player:Player):
-        super().__init__("blackKingLeft.png",3, 120)
+        super().__init__("blackKingLeft.png",2.5, 120)
         self.set_enemy(pg.transform.scale(self.get_enemy(), (60, 60)))
         self._picture = "blackKingLeft.png"
         self.__left_king = pg.transform.scale(pg.image.load(self._picture), (60, 60))
@@ -30,10 +31,10 @@ class Boss(enemies):
             self.set_enemy(self.__left_king)
             self._direction = "left"
         speed = random.random() + 2.5
-        if self._position[0] < player.get_position()[0] - 120:
+        if self._position[0] < player.get_position()[0] - 150:
             self._position[0] += speed
             self._distance_traveled += speed
-        elif self._position[0] > player.get_position()[0] + 120:
+        elif self._position[0] > player.get_position()[0] + 150:
             self._position[0] -= speed
             self._distance_traveled += speed
         if self._position[1] < player.get_position()[1]:
@@ -72,12 +73,13 @@ class Boss(enemies):
 
 
         current_time = pg.time.get_ticks()
-        if current_time - self.__last_attack_time >= 500:
-            # if random.random() :
-                # use skill
-            #else:
-            Bullet.create_bullet(self, "enemy")
-            self.__last_attack_time = current_time
+        if current_time - self.__last_attack_time >= 1000:
+            if (int(random.random() * 20) + 1) == 1:
+                EnemiesSkill.create_player_skill(self)
+            else:
+                Bullet.create_bullet(self, "enemy")
+                self.__last_attack_time = current_time
+        EnemiesSkill.move_enemy_skill()
         Bullet.bullet_movement(4, "enemy")
 
         for bullet in Bullet.get_enemy_bullet_list():
@@ -85,3 +87,9 @@ class Boss(enemies):
                 player.decrease_health(1.5)
                 self._attack_count += 1
                 Bullet.remove_enemy_bullet_list(bullet)
+
+        for skill in EnemiesSkill.get_skill_list():
+            if collision(skill.get_position(), player.get_position()):
+                player.decrease_health(2.1)
+                self._attack_count += 1
+                EnemiesSkill.remove_skill_list(skill)

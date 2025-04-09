@@ -48,7 +48,6 @@ class Bullet:
     def __init__(self, position):
         self.__position = [position[0], position[1]]
         self.__direction = ""
-        self.__is_hitted_player = False
 
     def get_position(self):
         return self.__position
