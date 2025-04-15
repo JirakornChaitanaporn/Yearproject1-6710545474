@@ -30,7 +30,7 @@ class Boss(enemies):
         elif self._position[0] > player.get_position()[0]:
             self.set_enemy(self.__left_king)
             self._direction = "left"
-        speed = random.random() + 2.5
+        speed = random.random() + 2.25
         if self._position[0] < player.get_position()[0] - 150:
             self._position[0] += speed
             self._distance_traveled += speed
@@ -73,7 +73,7 @@ class Boss(enemies):
 
 
         current_time = pg.time.get_ticks()
-        if current_time - self.__last_attack_time >= 1000:
+        if current_time - self.__last_attack_time >= 1200:
             if (int(random.random() * 20) + 1) == 1:
                 EnemiesSkill.create_player_skill(self)
             else:
