@@ -66,7 +66,7 @@ class RunGame:
                 self.__player.set_dmg(15)
                 self.__player.set_pic(self.__white_queen)
                 self.__player.set_attacking("gun")
-                self.__player.set_attack_cooldown(200)
+                self.__player.set_attack_cooldown(100)
                 self.__is_queen = True
         if pg.key.get_pressed()[pg.K_3] and Player.get_coin() >= 5 and self.__player.get_health() < self.__player.get_max_health():
             Player.change_coin(-5)
