@@ -1,0 +1,6 @@
+knight sword(make random sword move around it)
+add menu
+add sound
+do the data
+improve ui
+do endless if possible
