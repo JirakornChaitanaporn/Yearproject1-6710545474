@@ -10,7 +10,7 @@ Clone the repository:
 git clone https://github.com/JirakornChaitanaporn/Yearproject1-6710545474.git
 Create a virtual environment and install dependencies
 Change your directory to the folder
-cd Pygame
+"cd Yearproject1-6710545474"
 Create virtual environment using this command.
 python -m venv env
 Activate the virtual environment
