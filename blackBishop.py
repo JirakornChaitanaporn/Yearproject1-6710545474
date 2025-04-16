@@ -22,19 +22,25 @@ class BlackBishop(enemies):
             self._direction = "left"
 
     def movement(self, player: Player):
-        speed = random.random() + 1
+        speed = random.random()
         if self._position[1] < player.get_position()[1] - 5:
             if random.randint(0,1) == 0:
-                self._position[0] -= (speed-1)
+                self._position[0] -= (speed)
+                self._distance_traveled += (speed)
             else:
-                self._position[0] += speed - 1
+                self._position[0] += speed
+                self._distance_traveled += (speed)
             self._position[1] += speed
+            self._distance_traveled += (speed)
         elif self._position[1] > player.get_position()[1] + 5:
             if random.randint(0,1) == 0:
                 self._position[0] -= speed
+                self._distance_traveled += (speed)
             else:
                 self._position[0] += speed
+                self._distance_traveled += (speed)
             self._position[1] -= speed
+            self._distance_traveled += (speed)
 
         if self._position[0] < player.get_position()[0]:
             self.set_enemy(self.__right_bishop)
@@ -42,7 +48,7 @@ class BlackBishop(enemies):
         elif self._position[0] > player.get_position()[0]:
             self.set_enemy(self.__left_bishop)
             self._direction = "left"
-        if self._position[0] < player.get_position()[0] - 150:
+        if self._position[0] < player.get_position()[0] - 200:
             if self._position[1] < player.get_position()[1]:
                 self._position[0] += speed
                 self._position[1] += speed
@@ -50,7 +56,7 @@ class BlackBishop(enemies):
                 self._position[0] += speed
                 self._position[1] -= speed
             self._distance_traveled += math.sqrt(speed**2 + speed**2)
-        elif self._position[0] > player.get_position()[0] + 150:
+        elif self._position[0] > player.get_position()[0] + 200:
             if self._position[1] < player.get_position()[1]:
                 self._position[0] -= speed
                 self._position[1] += speed
