@@ -133,10 +133,16 @@ class RunGame:
         if not self.__is_created_enemies:
             self.__create_enemies(2, lambda: Boss(self.__player))
             self.__is_created_enemies = True
+
+        if len(Block.get_block_list()) < 4:
+            temp = Block()
+            Block.add_block_list(temp)
+
         for enemy in enemies.get_enemies_list():
             enemy.movement(self.__player)
             enemy.attack(self.__player)
 
+        Bullet.bullet_remove_block()
         self.__player.player_movement(self.__is_in_shop)
         self.__player.player_attack(enemies.get_enemies_list())
         if len(enemies.get_enemies_list()) == 0 and self.__is_created_enemies:
@@ -157,8 +163,8 @@ class RunGame:
             if ev.type == pg.QUIT:
                 pg.quit()
                 self.__is_run = False
-        # if self.__is_menu:
-        #     self.menu()
+        if self.__is_menu:
+            self.menu()
         if self.__isphase1:
             self.phase1()
         elif self.__isphase2:
@@ -195,8 +201,10 @@ class RunGame:
             for enemy in enemies.get_enemies_list():
                 self.__screen.blit(enemy.get_enemy(), enemy.get_position())
                 enemy.print_health(self.__screen, pg.font.Font(None, 36))
-        # elif self.__is_menu:
-            # self.__screen.blit(self.__menu_pic, (0, 0))
+            for block in Block.get_block_list():
+                self.__screen.blit(Block.get_block(), block.get_position())
+        elif self.__is_menu:
+            self.__screen.blit(self.__menu_pic, (0, 0))
         self.__screen.blit(self.__player.get_pic(), self.__player.get_tuple_position())#draw player
         # pg.draw.rect(self.__screen, 
         #              (255,255,255), 

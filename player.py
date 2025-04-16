@@ -36,7 +36,7 @@ class Player:
 
 
     def print_health(self, screen, font):
-        health_text = font.render(str(self.__health), True, (255, 255, 255))
+        health_text = font.render(str(round(self.__health,2)), True, (255, 255, 255))
         screen.blit(health_text, (self.__position[0] + 5, self.__position[1] - 10.0))
 
     def print_stat(self, screen, font):

@@ -31,10 +31,10 @@ class Boss(enemies):
             self.set_enemy(self.__left_king)
             self._direction = "left"
         speed = random.random() + 2.25
-        if self._position[0] < player.get_position()[0] - 150:
+        if self._position[0] < player.get_position()[0] - 250:
             self._position[0] += speed
             self._distance_traveled += speed
-        elif self._position[0] > player.get_position()[0] + 150:
+        elif self._position[0] > player.get_position()[0] + 250:
             self._position[0] -= speed
             self._distance_traveled += speed
         if self._position[1] < player.get_position()[1]:

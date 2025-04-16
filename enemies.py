@@ -34,7 +34,7 @@ class enemies:
             self._position = [self._position[0], 3]
 
     def print_health(self, screen, font):
-        health_text = font.render(str(self._health), True, (255, 255, 255))
+        health_text = font.render(str(round(self._health,2)), True, (255, 255, 255))
         screen.blit(health_text, (self._position[0] + 5, self._position[1] - 10.0))
 
     def get_attack_count(self):

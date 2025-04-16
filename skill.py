@@ -23,7 +23,6 @@ class PlayerSkill:
     @staticmethod
     def move_player_skill(speed = 7):
         for skill in PlayerSkill.get_skill_list():
-            print(skill.get_direction())
             position = skill.get_position()
             if skill.get_direction() == "left":
                 position[0] -= speed
@@ -88,7 +87,6 @@ class EnemiesSkill:
     @staticmethod
     def move_enemy_skill(speed = 7):
         for skill in EnemiesSkill.get_skill_list():
-            print(skill.get_direction())
             position = skill.get_position()
             if skill.get_direction() == "left":
                 position[0] -= speed

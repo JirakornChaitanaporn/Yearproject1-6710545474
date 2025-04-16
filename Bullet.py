@@ -1,4 +1,5 @@
 import pygame as pg
+from block import Block
 
 class Bullet:
     __bullet = pg.image.load("bishop_bullet.png")
@@ -48,6 +49,26 @@ class Bullet:
     def __init__(self, position):
         self.__position = [position[0], position[1]]
         self.__direction = ""
+
+    @classmethod
+    def bullet_remove_block(cls):
+        def collision(bullet_pos: list, block_pos: list) -> bool:
+            player_width = 60
+            player_height = 60
+
+            if (bullet_pos[0] > block_pos[0] and bullet_pos[0] < block_pos[0] + player_width and
+                bullet_pos[1] > block_pos[1] -10 and bullet_pos[1] < block_pos[1] + player_height):
+                return True
+            return False
+        for bullet in cls.get_enemy_bullet_list():
+            for block in Block.get_block_list():
+                if collision(bullet.get_position(), block.get_position()):
+                    cls.remove_enemy_bullet_list(bullet)
+
+        for bullet in cls.get_player_bullet():
+            for block in Block.get_block_list():
+                if collision(bullet.get_position(), block.get_position()):
+                    cls.remove_player_bullet(bullet)
 
     def get_position(self):
         return self.__position
