@@ -163,8 +163,8 @@ class RunGame:
             if ev.type == pg.QUIT:
                 pg.quit()
                 self.__is_run = False
-        if self.__is_menu:
-            self.menu()
+        # if self.__is_menu:
+        #     self.menu()
         if self.__isphase1:
             self.phase1()
         elif self.__isphase2:
@@ -203,8 +203,8 @@ class RunGame:
                 enemy.print_health(self.__screen, pg.font.Font(None, 36))
             for block in Block.get_block_list():
                 self.__screen.blit(Block.get_block(), block.get_position())
-        elif self.__is_menu:
-            self.__screen.blit(self.__menu_pic, (0, 0))
+        # elif self.__is_menu:
+        #     self.__screen.blit(self.__menu_pic, (0, 0))
         self.__screen.blit(self.__player.get_pic(), self.__player.get_tuple_position())#draw player
         # pg.draw.rect(self.__screen, 
         #              (255,255,255), 
