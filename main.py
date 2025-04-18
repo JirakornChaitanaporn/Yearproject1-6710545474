@@ -79,6 +79,8 @@ class RunGame:
         self.__isphase1 = True
         enemies.clear_enemies()
         self.__is_created_enemies = False
+        Bullet.clear_enemy_bullet_list()
+        Bullet.clear_player_bullet()
         self.__player.set_coin(0)
         self.__player.__init__("whiteRook.png",
             [[pg.image.load("sword(right_up).png"), pg.image.load("sword(right_down).png")], 
@@ -96,6 +98,8 @@ class RunGame:
             self.__is_created_enemies = True
         self.__player.player_movement(self.__is_in_shop)
         self.__player.player_attack(enemies.get_enemies_list())
+        if Player.get_coin() == 30:
+            Player.set_coin(29)
         for enemy in enemies.get_enemies_list():
             enemy.movement(self.__player)
             enemy.attack(self.__player)

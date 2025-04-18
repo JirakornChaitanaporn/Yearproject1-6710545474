@@ -83,7 +83,3 @@ Date: *4 March 2025*
 |16/3|Phiranath|Don’t forget to remove the italic fonts and reformat some of the sections using a number list or a bullet point, so it would be easier to read. I suggest adding more information about the pieces promoting mechanics, is it player piece or enemy piece. Overall good idea. Good job!|
 |29/3|Pattapon|Good job. There are some suggestions in my comments.|
 |30/3|Phiranath|Good job! Nothing much for me to comment on, only some relationships in the class diagram and the data features.|
-
-
-
-

@@ -1,6 +1,6 @@
 import pygame as pg
 from player import Player
-from random import random
+import random
 import time
 from Bullet import Bullet
 
@@ -13,7 +13,7 @@ class enemies:
         self._picture = picture
         self._enemy = pg.image.load(self._picture)
         self._enemy = pg.transform.scale(self._enemy, (100, 100))
-        self._position = [(int(random() * (600 - 300 + 1))), (int(random() * (600 - 20 + 1)))]
+        self._position = [(int(random.random() * (600 - 300 + 1))), (int(random.random() * (600 - 20 + 1)))]
         self._speed = speed
         self._health = health
         self._distance_traveled = 0
@@ -46,7 +46,7 @@ class enemies:
             self.__end_timer = time.time()
             self._time_survived = self.__start_timer - self.__end_timer
             enemies.__enemies_list.remove(self)
-            Player.change_coin(5)
+            Player.change_coin(int(random.random() * 2) + 5)
 
     @classmethod
     def add_enemies(cls, enemy):
