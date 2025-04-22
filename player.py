@@ -16,7 +16,7 @@ class Player:
         self.__left_queen = pg.transform.scale(self.__left_queen, (60, 60))
         self.__health = 70.0
         self.__max_health = 70.0
-        self.__dmg = 1.5
+        self.__dmg = 2.0
         self.__weapon = weapon
         self.__sword_is_left = 0
         self.__is_attacking = False

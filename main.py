@@ -13,12 +13,13 @@ class RunGame:
         pg.init()
         self.__is_run = True
         self.__is_menu = True
-        self.__isphase1 = True
+        self.__isphase1 = False
         self.__is_created_enemies = False
-        self.__isphase2 = True
-        self.__isphase3 = True
+        self.__isphase2 = False
+        self.__isphase3 = False
         self.__is_queen = False
         self.__is_in_shop = False
+        self.__is_win = False
         self.__is_gameover = False
         self.__key_history = []
         self.__isendless = False
@@ -32,6 +33,7 @@ class RunGame:
             [[pg.image.load("sword(right_up).png"), pg.image.load("sword(right_down).png")], 
              [pg.image.load("sword(left_up).png"), pg.image.load("sword(left_down).png")]]
         )
+        self.__guideline  = pg.transform.scale(pg.image.load("GuideBook.png"), (800, 600))
         self.__white_queen = pg.transform.scale(pg.image.load("white_queen_right.png"), (50, 50))
         self.__backgrounds = [self.__menu, self.__background1, self.__background2, self.__background3]
         self.__screen = pg.display.set_mode((Config.get('WIN_SIZE_W'), Config.get('WIN_SIZE_H')))
@@ -39,7 +41,16 @@ class RunGame:
         pg.display.set_icon(pg.image.load("coolBishop.png"))
 
     def menu(self):
-        pass
+        play_text = pg.font.Font(None, 48).render("Press E to play", True, (0, 0, 0))
+        guide_prompt = pg.font.Font(None, 24).render("Hold h to read guide book", True, (0, 0, 0))
+        self.__screen.blit(guide_prompt, (Config.get('WIN_SIZE_W') - guide_prompt.get_width() - 10, 10))
+        play_rect = play_text.get_rect(center=(Config.get('WIN_SIZE_W')//2, 100))
+        self.__screen.blit(play_text, play_rect)
+        if pg.key.get_pressed()[pg.K_h]:
+            self.__screen.blit(self.__guideline, (0,0))
+        if self.__key_pressed(pg.K_e):
+            self.reset()
+
     
     def __key_pressed(self, key):
         keys = pg.key.get_pressed()
@@ -76,6 +87,9 @@ class RunGame:
             self.__player.change_max_health(30)
 
     def reset(self):
+        self.__is_win = False
+        self.__is_gameover = False
+        self.__is_menu = False
         self.__isphase1 = True
         enemies.clear_enemies()
         self.__is_created_enemies = False
@@ -159,7 +173,7 @@ class RunGame:
 
     def gameover(self):
         self.__isphase3 = False
-        self.__isendless = False
+        self.__is_win = True
         
 
     def game_event(self):
@@ -167,8 +181,6 @@ class RunGame:
             if ev.type == pg.QUIT:
                 pg.quit()
                 self.__is_run = False
-        # if self.__is_menu:
-        #     self.menu()
         if self.__isphase1:
             self.phase1()
         elif self.__isphase2:
@@ -192,6 +204,18 @@ class RunGame:
             self.__isphase3 = False
             if pg.key.get_pressed()[pg.K_SPACE]:
                 self.reset()
+        elif self.__is_win:
+            win_text = pg.font.Font(None, 36).render("Game Over", True, (0, 0, 0))
+            self.__screen.blit(win_text, (200,200))
+            win_text = pg.font.Font(None, 36).render("You win", True, (0, 0, 0))
+            self.__screen.blit(win_text, (200,350))
+            win_text = pg.font.Font(None, 36).render("press space to restart", True, (0, 0, 0))
+            self.__screen.blit(win_text, (200,550))
+            self.__isphase1 = False
+            self.__isphase2 = False
+            self.__isphase3 = False
+            if pg.key.get_pressed()[pg.K_SPACE]:
+                self.reset()
 
     def draw_game(self):
         if self.__isphase1 or self.__isphase2:
@@ -207,13 +231,12 @@ class RunGame:
                 enemy.print_health(self.__screen, pg.font.Font(None, 36))
             for block in Block.get_block_list():
                 self.__screen.blit(Block.get_block(), block.get_position())
-        # elif self.__is_menu:
-        #     self.__screen.blit(self.__menu_pic, (0, 0))
-        self.__screen.blit(self.__player.get_pic(), self.__player.get_tuple_position())#draw player
-        # pg.draw.rect(self.__screen, 
-        #              (255,255,255), 
-        #              (self.__player.get_position()[0], self.__player.get_position()[1], 60, 60))
-        self.__player.print_health(self.__screen, pg.font.Font(None, 36))
+        elif self.__is_menu:
+            self.__screen.blit(self.__menu, (0, 0))
+            self.menu()
+        if not self.__is_menu:
+            self.__screen.blit(self.__player.get_pic(), self.__player.get_tuple_position())
+            self.__player.print_health(self.__screen, pg.font.Font(None, 36))
         if (self.__player.get_attacking() == "melee") and enemies.get_enemies_list():
             self.__player.show_weapon(self.__screen, enemies.get_enemies_list()[0])
         for bullet in Bullet.get_enemy_bullet_list():
