@@ -74,10 +74,12 @@ class Boss(enemies):
 
 
         current_time = pg.time.get_ticks()
-        if current_time - self.__last_attack_time >= 500:
+        if current_time - self.__last_attack_time >= 850:
             if (int(random.random() * 20) + 1) == 1:
                 EnemiesSkill.create_player_skill(self)
+                SoundEffects.get_instance().play("enemy_shot", 0.1)
             else:
+                SoundEffects.get_instance().play("enemy_shot", 0.1)
                 Bullet.create_bullet(self, "enemy")
                 self.__last_attack_time = current_time
         EnemiesSkill.move_enemy_skill()
@@ -85,14 +87,13 @@ class Boss(enemies):
 
         for bullet in Bullet.get_enemy_bullet_list():
             if collision(bullet.get_position(), player.get_position()):
-                SoundEffects.get_instance().play("enemy_shot")
                 player.decrease_health(1.5)
                 self._attack_count += 1
                 Bullet.remove_enemy_bullet_list(bullet)
 
         for skill in EnemiesSkill.get_skill_list():
             if collision(skill.get_position(), player.get_position()):
-                SoundEffects.get_instance().play("enemy_shot")
+                SoundEffects.get_instance().play("enemy_shot", 0.1)
                 player.decrease_health(2.1)
                 self._attack_count += 1
                 EnemiesSkill.remove_skill_list(skill)

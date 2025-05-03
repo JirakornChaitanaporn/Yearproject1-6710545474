@@ -129,14 +129,16 @@ class Player:
                             ((self.__sword_is_left and (self.__position[0]> enemy.get_position()[0]))or \
                              (not self.__sword_is_left and (self.__position[0] < enemy.get_position()[0]))):#correct collision by using swing animation laterrrrr
                             self.__is_attacking = True
-                            SoundEffects.get_instance().play("player_shot", 0.3)
+                            SoundEffects.get_instance().play("player_shot", 0.1)
                             enemy.get_attacked(self.__dmg)
                             self.__last_attack_time = current_time
         else:
             if current_time - self.__last_attack_time >= self.__attack_cooldown and self.__key_pressed(pg.key.get_pressed()[pg.K_SPACE]):
                 if (int(random.random() * 15) + 1) == 1:
+                    SoundEffects.get_instance().play("player_shot", 0.1)
                     PlayerSkill.create_player_skill(self)
                 else:
+                    SoundEffects.get_instance().play("player_shot", 0.1)
                     Bullet.create_bullet(self, "player")
                     self.__last_attack_time = current_time
             PlayerSkill.move_player_skill()
