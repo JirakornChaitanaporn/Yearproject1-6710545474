@@ -7,7 +7,7 @@ import time
 
 class BlackHorse(enemies):
     def __init__(self):
-        super().__init__("blackKnight.png", 3, 10.0)
+        super().__init__(r"image\blackKnight.png", 3, 10.0)
         self.set_enemy(pg.transform.scale(self.get_enemy(), (60, 60)))
         self.__last_attack_time = 0
 

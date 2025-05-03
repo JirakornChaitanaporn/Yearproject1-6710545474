@@ -1,5 +1,5 @@
 knight sword(make random sword move around it)
-add menu
+add timer
 add sound
 do the data
 improve ui

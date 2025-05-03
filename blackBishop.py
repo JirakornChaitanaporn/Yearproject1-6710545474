@@ -4,14 +4,15 @@ from player import Player
 import random
 import math
 from Bullet import Bullet
+from Sound import SoundEffects
 
 class BlackBishop(enemies):
     def __init__(self,player:Player):
-        super().__init__("blackBishopLeft.png", 3, 15.0)
+        super().__init__(r"image\blackBishopLeft.png", 3, 30.0)
         self.set_enemy(pg.transform.scale(self.get_enemy(), (60, 60)))
-        self._picture = "blackBishopLeft.png"
+        self._picture = r"image\blackBishopLeft.png"
         self.__left_bishop = pg.transform.scale(pg.image.load(self._picture), (60, 60))
-        self._picture = "blackBishopRight.png"
+        self._picture = r"image\blackBishopRight.png"
         self.__right_bishop = pg.transform.scale(pg.image.load(self._picture), (60, 60))
         self.__last_attack_time = 0
         if self._position[0] < player.get_position()[0]:
@@ -98,11 +99,12 @@ class BlackBishop(enemies):
         if current_time - self.__last_attack_time >= 2000:
             Bullet.create_bullet(self, "enemy")
             self.__last_attack_time = current_time
-        Bullet.bullet_movement(1,"enemy")
+        Bullet.bullet_movement(2,"enemy")
 
         for bullet in Bullet.get_enemy_bullet_list():
             if collision(bullet.get_position(), player.get_position()):
-                player.decrease_health(1.5)
+                SoundEffects.get_instance().play("enemy_shot")
+                player.decrease_health(5)
                 self._attack_count += 1
                 Bullet.remove_enemy_bullet_list(bullet)
 

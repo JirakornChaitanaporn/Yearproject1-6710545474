@@ -2,7 +2,7 @@ import pygame as pg
 
 class PlayerSkill:
     __skill_list = []
-    __skill = pg.image.load("playerSkill.png")
+    __skill = pg.image.load(r"image\playerSkill.png")
     __skill = pg.transform.scale(__skill, (40, 40))
 
     def __init__(self, position):
@@ -66,7 +66,7 @@ class PlayerSkill:
 
 class EnemiesSkill:
     __skill_list = []
-    __skill = pg.image.load("enemiesSkill.png")
+    __skill = pg.image.load(r"image\enemiesSkill.png")
     __skill = pg.transform.scale(__skill, (40, 40))
 
     def __init__(self, position):
@@ -85,7 +85,7 @@ class EnemiesSkill:
         EnemiesSkill.add_skill_list(skill_bullet)
     
     @staticmethod
-    def move_enemy_skill(speed = 7):
+    def move_enemy_skill(speed = 15):
         for skill in EnemiesSkill.get_skill_list():
             position = skill.get_position()
             if skill.get_direction() == "left":

@@ -33,9 +33,10 @@ class enemies:
         elif self._position[1] < 0.0:
             self._position = [self._position[0], 3]
 
-    def print_health(self, screen, font):
-        health_text = font.render(str(round(self._health,2)), True, (255, 255, 255))
-        screen.blit(health_text, (self._position[0] + 5, self._position[1] - 10.0))
+    def print_health(self, screen, max_health):
+        pg.draw.rect(screen, (255,0,0), (self._position[0] - 5, self._position[1] - 15, 70, 10))
+        pg.draw.rect(screen, (0,255,0), (self._position[0] - 5, self._position[1] - 15, 70 * (self._health/max_health), 10))
+
 
     def get_attack_count(self):
         return self._attack_count
@@ -46,7 +47,7 @@ class enemies:
             self.__end_timer = time.time()
             self._time_survived = self.__start_timer - self.__end_timer
             enemies.__enemies_list.remove(self)
-            Player.change_coin(int(random.random() * 2) + 5)
+            Player.change_coin(int(random.random() * 3) + 7)
 
     @classmethod
     def add_enemies(cls, enemy):

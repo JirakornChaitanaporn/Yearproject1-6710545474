@@ -3,6 +3,7 @@ import math
 import random
 from Bullet import Bullet
 from skill import PlayerSkill
+from Sound import SoundEffects
 
 class Player:
     __coin = 0
@@ -10,9 +11,9 @@ class Player:
         self.__pic = pg.transform.scale(pg.image.load(picture), (60, 60))
         self.__speed = 1.5
         self.__position = [5.0, 5.0]
-        self.__right_queen = pg.image.load("white_queen_right.png")
+        self.__right_queen = pg.image.load(r"image\white_queen_right.png")
         self.__right_queen = pg.transform.scale(self.__right_queen, (60, 60))
-        self.__left_queen = pg.image.load("white_queen_left.png")
+        self.__left_queen = pg.image.load(r"image\white_queen_left.png")
         self.__left_queen = pg.transform.scale(self.__left_queen, (60, 60))
         self.__health = 70.0
         self.__max_health = 70.0
@@ -35,9 +36,9 @@ class Player:
         self.__key_history = []
 
 
-    def print_health(self, screen, font):
-        health_text = font.render(str(round(self.__health,2)), True, (255, 255, 255))
-        screen.blit(health_text, (self.__position[0] + 5, self.__position[1] - 10.0))
+    def print_health(self, screen):
+        pg.draw.rect(screen, (255,0,0), (self.__position[0] - 5, self.__position[1] - 15, 70, 10))
+        pg.draw.rect(screen, (0,255,0), (self.__position[0] - 5, self.__position[1] - 15, 70 * (self.__health/self.__max_health), 10))
 
     def print_stat(self, screen, font):
         stat_text = font.render(f"Strenght: {self.__dmg}", True, (255, 255, 255))
@@ -54,7 +55,7 @@ class Player:
     @staticmethod
     def print_coin(screen, font):
         coin = font.render(f"Coins: {Player.__coin}", True, (0, 255, 0))
-        screen.blit(coin, (5,580))
+        screen.blit(coin, (500,180))
     
     def __key_pressed(self, key):
         if key:
@@ -122,34 +123,37 @@ class Player:
             return False
         current_time = pg.time.get_ticks()
         if self.__attack_style == "melee":
-            if current_time - self.__last_attack_time >= self.__attack_cooldown and self.__key_pressed(pg.mouse.get_pressed()[0]):
+            if current_time - self.__last_attack_time >= self.__attack_cooldown and self.__key_pressed(pg.key.get_pressed()[pg.K_SPACE]):
                     for enemy in enemies_list:
-                        if (self.__get_distance(self.__position, enemy.get_position())) <= 100 and\
+                        if (self.__get_distance([self.__position[0] + 30 + self.__position_to_player, self.__position[1] + 30], enemy.get_position())) <= 90 and\
                             ((self.__sword_is_left and (self.__position[0]> enemy.get_position()[0]))or \
                              (not self.__sword_is_left and (self.__position[0] < enemy.get_position()[0]))):#correct collision by using swing animation laterrrrr
                             self.__is_attacking = True
+                            SoundEffects.get_instance().play("player_shot", 0.3)
                             enemy.get_attacked(self.__dmg)
                             self.__last_attack_time = current_time
         else:
-            if current_time - self.__last_attack_time >= 500 and self.__key_pressed(pg.mouse.get_pressed()[0]):
+            if current_time - self.__last_attack_time >= self.__attack_cooldown and self.__key_pressed(pg.key.get_pressed()[pg.K_SPACE]):
                 if (int(random.random() * 15) + 1) == 1:
                     PlayerSkill.create_player_skill(self)
                 else:
                     Bullet.create_bullet(self, "player")
                     self.__last_attack_time = current_time
             PlayerSkill.move_player_skill()
-            Bullet.bullet_movement(6, "player")
+            Bullet.bullet_movement(15, "player")
 
             for bullet in Bullet.get_player_bullet():
                 for enemies in enemies_list:
                     if collision(bullet.get_position(), enemies.get_position()):
+                        SoundEffects.get_instance().play("player_shot")
                         enemies.get_attacked(4)
                         Bullet.remove_player_bullet(bullet)
             for skill in PlayerSkill.get_skill_list():
                 for enemies in enemies_list:
                     if collision(skill.get_position(), enemies.get_position()):
+                        SoundEffects.get_instance().play("player_shot")
                         enemies.set_position([(int(random.random() * 700) + 1), (int(random.random() * 500) + 1)])
-                        enemies.get_attacked(4)
+                        enemies.get_attacked(10)
                         Bullet.remove_player_bullet(skill)
     @classmethod
     def change_coin(cls,coin):
@@ -168,7 +172,7 @@ class Player:
             self.__is_attacking = False
         if self.__position[0] > enemies.get_position()[0]:
             self.__sword_is_left = 1
-            self.__position_to_player = -40
+            self.__position_to_player = -50
         else:
             self.__sword_is_left = 0
             self.__position_to_player  = 40

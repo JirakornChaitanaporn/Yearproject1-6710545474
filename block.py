@@ -2,7 +2,7 @@ import pygame as pg
 from random import random
 
 class Block:
-    __block = pg.image.load("block.png")
+    __block = pg.image.load(r"image\block.png")
     __block = pg.transform.scale(__block, (60, 60))
     __block_list = []
     __count = 0

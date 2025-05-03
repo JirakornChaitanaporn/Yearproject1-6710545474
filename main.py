@@ -7,6 +7,8 @@ from enemies import enemies,Bullet
 from block import Block
 from boss import Boss
 from skill import PlayerSkill, EnemiesSkill
+from Sound import SoundEffects
+from random import random
 
 class RunGame:
     def __init__(self):
@@ -23,29 +25,31 @@ class RunGame:
         self.__is_gameover = False
         self.__key_history = []
         self.__isendless = False
-        self.__menu = pg.transform.scale(pg.image.load("menu.png"), (800, 600))
-        self.__shop_background = pg.transform.scale(pg.image.load("shop.png"), (800, 600))
-        self.__background1 = pg.transform.scale(pg.image.load("bg1.png"), (800, 600))
-        self.__background2 = pg.transform.scale(pg.image.load("bg2.png"), (800, 600))
-        self.__background3 = pg.transform.scale(pg.image.load("bg3.png"), (800, 600))
+        self.__menu = pg.transform.scale(pg.image.load(r"image\menu.png"), (800, 600))
+        self.__shop_background = pg.transform.scale(pg.image.load(r"image\shop.png"), (800, 600))
+        self.__background1 = pg.transform.scale(pg.image.load(r"image\bg1.png"), (800, 600))
+        self.__background2 = pg.transform.scale(pg.image.load(r"image\bg2.png"), (800, 600))
+        self.__background3 = pg.transform.scale(pg.image.load(r"image\bg3.png"), (800, 600))
         self.__player = Player(
-            "whiteRook.png", 
-            [[pg.image.load("sword(right_up).png"), pg.image.load("sword(right_down).png")], 
-             [pg.image.load("sword(left_up).png"), pg.image.load("sword(left_down).png")]]
+            r"image\whiteRook.png", 
+            [[pg.image.load(r"image\sword(right_up).png"), pg.image.load(r"image\sword(right_down).png")], 
+             [pg.image.load(r"image\sword(left_up).png"), pg.image.load(r"image\sword(left_down).png")]]
         )
-        self.__guideline  = pg.transform.scale(pg.image.load("GuideBook.png"), (800, 600))
-        self.__white_queen = pg.transform.scale(pg.image.load("white_queen_right.png"), (50, 50))
+        self.__guideline  = pg.transform.scale(pg.image.load(r"image\GuideBook.png"), (800, 600))
+        self.__white_queen = pg.transform.scale(pg.image.load(r"image\white_queen_right.png"), (50, 50))
         self.__backgrounds = [self.__menu, self.__background1, self.__background2, self.__background3]
         self.__screen = pg.display.set_mode((Config.get('WIN_SIZE_W'), Config.get('WIN_SIZE_H')))
         pg.display.set_caption("Rogue-like Chess")
-        pg.display.set_icon(pg.image.load("coolBishop.png"))
 
     def menu(self):
-        play_text = pg.font.Font(None, 48).render("Press E to play", True, (0, 0, 0))
-        guide_prompt = pg.font.Font(None, 24).render("Hold h to read guide book", True, (0, 0, 0))
-        self.__screen.blit(guide_prompt, (Config.get('WIN_SIZE_W') - guide_prompt.get_width() - 10, 10))
-        play_rect = play_text.get_rect(center=(Config.get('WIN_SIZE_W')//2, 100))
-        self.__screen.blit(play_text, play_rect)
+        Welcome = pg.font.Font(None, 48).render("Welcome to Rogue-like chess", True, (255,255,255))
+        play_text = pg.font.Font(None, 36).render("Press E to play", True, (255, 215, 0))
+        guide_prompt = pg.font.Font(None, 24).render("Hold h to read guide book", True, (200, 200, 200))
+        sound_disable = pg.font.Font(None, 32).render("Press K to disable sound", True, (65,105,255))
+        self.__screen.blit(guide_prompt, (285, 375))
+        self.__screen.blit(play_text, (295, 250))
+        self.__screen.blit(Welcome, (160, 100))
+        self.__screen.blit(sound_disable, (255, 450))
         if pg.key.get_pressed()[pg.K_h]:
             self.__screen.blit(self.__guideline, (0,0))
         if self.__key_pressed(pg.K_e):
@@ -69,16 +73,15 @@ class RunGame:
         if self.__key_pressed(pg.K_1) and Player.get_coin() >= 10:
             Player.change_coin(-10)
             self.__player.change_dmg(2)
-        if self.__key_pressed(pg.K_2) and Player.get_coin() >= 30:
-            if not self.__is_queen:
-                Player.change_coin(-30)
-                self.__player.set_max_health(250.0)
-                self.__player.set_speed(5)
-                self.__player.set_dmg(15)
-                self.__player.set_pic(self.__white_queen)
-                self.__player.set_attacking("gun")
-                self.__player.set_attack_cooldown(100)
-                self.__is_queen = True
+        if self.__key_pressed(pg.K_2) and Player.get_coin() >= 30 and not self.__is_queen:
+            Player.change_coin(-30)
+            self.__player.set_max_health(150.0)
+            self.__player.set_speed(5)
+            self.__player.set_dmg(15)
+            self.__player.set_pic(self.__white_queen)
+            self.__player.set_attacking("gun")
+            self.__player.set_attack_cooldown(100)
+            self.__is_queen = True
         if pg.key.get_pressed()[pg.K_3] and Player.get_coin() >= 5 and self.__player.get_health() < self.__player.get_max_health():
             Player.change_coin(-5)
             self.__player.set_health(self.__player.get_max_health())
@@ -95,10 +98,13 @@ class RunGame:
         self.__is_created_enemies = False
         Bullet.clear_enemy_bullet_list()
         Bullet.clear_player_bullet()
+        PlayerSkill.clear_skill_list()
+        EnemiesSkill.clear_skill_list()
+        SoundEffects.get_instance().play("game_start")
         self.__player.set_coin(0)
-        self.__player.__init__("whiteRook.png",
-            [[pg.image.load("sword(right_up).png"), pg.image.load("sword(right_down).png")], 
-             [pg.image.load("sword(left_up).png"), pg.image.load("sword(left_down).png")]])
+        self.__player.__init__(r"image\whiteRook.png",
+            [[pg.image.load(r"image\sword(right_up).png"), pg.image.load(r"image\sword(right_down).png")], 
+             [pg.image.load(r"image\sword(left_up).png"), pg.image.load(r"image\sword(left_down).png")]])
 
     def __create_enemies(self, n, class_name):
         temporary = None
@@ -129,7 +135,7 @@ class RunGame:
 
     def phase2(self):
         if not self.__is_created_enemies:
-            self.__create_enemies(6, lambda: BlackBishop(self.__player))
+            self.__create_enemies(10, lambda: BlackBishop(self.__player))
             self.__is_created_enemies = True
         self.__player.player_movement(self.__is_in_shop)
         self.__player.player_attack(enemies.get_enemies_list())
@@ -149,7 +155,7 @@ class RunGame:
 
     def boss_phase(self):
         if not self.__is_created_enemies:
-            self.__create_enemies(2, lambda: Boss(self.__player))
+            self.__create_enemies(3, lambda: Boss(self.__player))
             self.__is_created_enemies = True
 
         if len(Block.get_block_list()) < 4:
@@ -191,30 +197,38 @@ class RunGame:
             self.endlessmode()
         if self.__is_gameover:
             self.gameover()
+        if self.__key_pressed(pg.K_q):
+            if SoundEffects.get_available_sound():
+                SoundEffects.set_available_sound(False)
+            else:
+                SoundEffects.set_available_sound(True)
+        
             
         if self.__player.get_health() <= 0:#when loss
             loss_text = pg.font.Font(None, 36).render("Game Over", True, (0, 0, 0))
             self.__screen.blit(loss_text, (200,200))
             loss_text = pg.font.Font(None, 36).render("Skill Issue", True, (0, 0, 0))
             self.__screen.blit(loss_text, (200,300))
-            loss_text = pg.font.Font(None, 36).render("press space to restart", True, (0, 0, 0))
+            loss_text = pg.font.Font(None, 36).render("press 'r' to restart", True, (0, 0, 0))
             self.__screen.blit(loss_text, (200,400))
             self.__isphase1 = False
             self.__isphase2 = False
             self.__isphase3 = False
-            if pg.key.get_pressed()[pg.K_SPACE]:
+            SoundEffects.get_instance().play("game_loss")
+            if pg.key.get_pressed()[pg.K_r]:
                 self.reset()
         elif self.__is_win:
             win_text = pg.font.Font(None, 36).render("Game Over", True, (0, 0, 0))
             self.__screen.blit(win_text, (200,200))
             win_text = pg.font.Font(None, 36).render("You win", True, (0, 0, 0))
             self.__screen.blit(win_text, (200,350))
-            win_text = pg.font.Font(None, 36).render("press space to restart", True, (0, 0, 0))
+            win_text = pg.font.Font(None, 36).render("press 'r' to restart", True, (0, 0, 0))
             self.__screen.blit(win_text, (200,550))
             self.__isphase1 = False
             self.__isphase2 = False
             self.__isphase3 = False
-            if pg.key.get_pressed()[pg.K_SPACE]:
+            SoundEffects.get_instance().play("game_win")
+            if pg.key.get_pressed()[pg.K_r]:
                 self.reset()
 
     def draw_game(self):
@@ -222,13 +236,29 @@ class RunGame:
             self.__screen.blit(self.__backgrounds[1], (-self.__player.get_position()[0],0))
             self.__screen.blit(self.__backgrounds[2], (-self.__player.get_position()[0] + 800, 0))
             for enemy in enemies.get_enemies_list():
+                if self.__isphase1:
+                    radius = 69
+                    circle_surf = pg.Surface((radius * 2, radius * 2), pg.SRCALPHA)
+                    pg.draw.circle(
+                        circle_surf,
+                        (200, 0, 0, 128),
+                        (radius, radius),
+                        radius
+                    )
+                    enemy_x, enemy_y = enemy.get_position()
+                    self.__screen.blit(
+                        circle_surf,
+                        (enemy_x + 30 - radius, enemy_y + 30 - radius)
+                    )
+                    enemy.print_health(self.__screen, 10)
+                else:
+                    enemy.print_health(self.__screen, 30)
                 self.__screen.blit(enemy.get_enemy(), enemy.get_position())
-                enemy.print_health(self.__screen, pg.font.Font(None, 36))
         elif self.__isphase3:
             self.__screen.blit(self.__backgrounds[3], (0,0))
             for enemy in enemies.get_enemies_list():
                 self.__screen.blit(enemy.get_enemy(), enemy.get_position())
-                enemy.print_health(self.__screen, pg.font.Font(None, 36))
+                enemy.print_health(self.__screen, 120)
             for block in Block.get_block_list():
                 self.__screen.blit(Block.get_block(), block.get_position())
         elif self.__is_menu:
@@ -236,7 +266,7 @@ class RunGame:
             self.menu()
         if not self.__is_menu:
             self.__screen.blit(self.__player.get_pic(), self.__player.get_tuple_position())
-            self.__player.print_health(self.__screen, pg.font.Font(None, 36))
+            self.__player.print_health(self.__screen)
         if (self.__player.get_attacking() == "melee") and enemies.get_enemies_list():
             self.__player.show_weapon(self.__screen, enemies.get_enemies_list()[0])
         for bullet in Bullet.get_enemy_bullet_list():
@@ -250,7 +280,14 @@ class RunGame:
         if self.__is_in_shop:
             self.__screen.blit(self.__shop_background,(0,0))
             self.__player.print_stat(self.__screen, pg.font.Font(None, 42))
-        self.__player.print_coin(self.__screen, pg.font.Font(None, 36))
+        if self.__is_in_shop: 
+            self.__player.print_coin(self.__screen, pg.font.Font(None, 36))
+
+        #sound
+        sound_status = pg.font.Font(None, 28).render(f"Sound is playing: {SoundEffects.get_available_sound()}", True,\
+                                    (0,255,0))
+        self.__screen.blit(sound_status,\
+                           sound_status.get_rect(bottomright=(800 - 10, 600 - 10)))
 
 
     def run_game(self):
