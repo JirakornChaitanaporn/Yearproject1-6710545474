@@ -1,6 +1,2 @@
-knight sword(make random sword move around it)
-add timer
-add sound
 do the data
-improve ui
-do endless if possible
+do endless if possible(nahh it's impossible)

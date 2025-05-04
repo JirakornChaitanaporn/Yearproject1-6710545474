@@ -5,7 +5,7 @@ class Bullet:
     __bullet = pg.image.load(r"image\bishop_bullet.png")
     __bullet = pg.transform.scale(__bullet, (80, 5))
     __player_bullet_pic = pg.image.load(r"image\player_bullet.png")
-    __player_bullet_pic = pg.transform.scale(__player_bullet_pic, (60, 20))
+    __player_bullet_pic = pg.transform.scale(__player_bullet_pic, (80, 5))
     __enemy_bullet_list = []
     __player_bullet = []
     

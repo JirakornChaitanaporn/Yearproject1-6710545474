@@ -10,6 +10,8 @@ class Player:
     def __init__(self, picture, weapon):
         self.__pic = pg.transform.scale(pg.image.load(picture), (60, 60))
         self.__speed = 1.5
+        self.__hitting_effect_left = pg.transform.scale(pg.image.load(r"image\right_hit.png"), (50, 40))
+        self.__hitting_effect_right = pg.transform.scale(pg.image.load(r"image\left_hit.png"), (50, 40))
         self.__position = [5.0, 5.0]
         self.__right_queen = pg.image.load(r"image\white_queen_right.png")
         self.__right_queen = pg.transform.scale(self.__right_queen, (60, 60))
@@ -25,13 +27,16 @@ class Player:
         self.__position_to_player = 25
         self.__weapon[0][0] = pg.transform.scale(self.__weapon[0][0], (90, 80))
         self.__weapon[0][1] = pg.transform.scale(self.__weapon[0][1], (90, 80))
+        self.__weapon[0][2] = pg.transform.scale(self.__weapon[0][2], (90, 80))
         self.__weapon[1][0] = pg.transform.scale(self.__weapon[1][0], (90, 80))
         self.__weapon[1][1] = pg.transform.scale(self.__weapon[1][1], (90, 80))
+        self.__weapon[1][2] = pg.transform.scale(self.__weapon[1][2], (90, 80))
 
         self.__current_weapon = self.__weapon[0][0]
         self.__attack_style = "melee"
         self.__last_attack_time = 0
         self.__attack_cooldown = 300
+        self.__sword_state = 0
 
         self.__key_history = []
 
@@ -168,17 +173,22 @@ class Player:
         cls.__coin = coin 
 
     def show_weapon(self, screen, enemies):
-        sword_is_down = 0
         if self.__is_attacking:
-            sword_is_down = 1
-            self.__is_attacking = False
+            self.__sword_state += 1
+            if self.__sword_state == 5:
+                self.__sword_state = 0
+                self.__is_attacking = False
+            if self.__sword_is_left == 0:
+                screen.blit(self.__hitting_effect_left, (self.__position[0] + self.__position_to_player*2 -20, self.__position[1] - 5))
+            else:
+                screen.blit(self.__hitting_effect_right, (self.__position[0] + self.__position_to_player, self.__position[1] - 5))
         if self.__position[0] > enemies.get_position()[0]:
             self.__sword_is_left = 1
             self.__position_to_player = -50
         else:
             self.__sword_is_left = 0
             self.__position_to_player  = 40
-        self.__current_weapon = self.__weapon[self.__sword_is_left][sword_is_down]
+        self.__current_weapon = self.__weapon[self.__sword_is_left][int(self.__sword_state / 2)]
         screen.blit(self.__current_weapon, (self.__position[0] + self.__position_to_player, self.__position[1]))
     
     def get_weapon(self):

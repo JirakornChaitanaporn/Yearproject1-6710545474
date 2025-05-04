@@ -8,7 +8,6 @@ from block import Block
 from boss import Boss
 from skill import PlayerSkill, EnemiesSkill
 from Sound import SoundEffects
-from random import random
 
 class RunGame:
     def __init__(self):
@@ -32,8 +31,8 @@ class RunGame:
         self.__background3 = pg.transform.scale(pg.image.load(r"image\bg3.png"), (800, 600))
         self.__player = Player(
             r"image\whiteRook.png", 
-            [[pg.image.load(r"image\sword(right_up).png"), pg.image.load(r"image\sword(right_down).png")], 
-             [pg.image.load(r"image\sword(left_up).png"), pg.image.load(r"image\sword(left_down).png")]]
+            [[pg.image.load(r"image\sword(right_up).png"), pg.image.load(r"image\sword(right_mid).png"),pg.image.load(r"image\sword(right_down).png")], 
+             [pg.image.load(r"image\sword(left_up).png"), pg.image.load(r"image\sword(left_mid).png"),pg.image.load(r"image\sword(left_down).png")]]
         )
         self.__guideline  = pg.transform.scale(pg.image.load(r"image\GuideBook.png"), (800, 600))
         self.__white_queen = pg.transform.scale(pg.image.load(r"image\white_queen_right.png"), (50, 50))
@@ -103,8 +102,9 @@ class RunGame:
         SoundEffects.get_instance().play("game_start")
         self.__player.set_coin(0)
         self.__player.__init__(r"image\whiteRook.png",
-            [[pg.image.load(r"image\sword(right_up).png"), pg.image.load(r"image\sword(right_down).png")], 
-             [pg.image.load(r"image\sword(left_up).png"), pg.image.load(r"image\sword(left_down).png")]])
+            [[pg.image.load(r"image\sword(right_up).png"), pg.image.load(r"image\sword(right_mid).png"),pg.image.load(r"image\sword(right_down).png")], 
+             [pg.image.load(r"image\sword(left_up).png"), pg.image.load(r"image\sword(left_mid).png"),pg.image.load(r"image\sword(left_down).png")]]
+        )
 
     def __create_enemies(self, n, class_name):
         temporary = None
@@ -203,14 +203,26 @@ class RunGame:
             else:
                 SoundEffects.set_available_sound(True)
         
-            
+        #for gameover
         if self.__player.get_health() <= 0:#when loss
             loss_text = pg.font.Font(None, 36).render("Game Over", True, (0, 0, 0))
-            self.__screen.blit(loss_text, (200,200))
-            loss_text = pg.font.Font(None, 36).render("Skill Issue", True, (0, 0, 0))
-            self.__screen.blit(loss_text, (200,300))
+            text_rect = loss_text.get_rect()
+            text_rect.center = (self.__screen.get_width() // 2, 200)
+            pg.draw.rect(self.__screen, (255, 0, 0), text_rect.inflate(20, 10))
+            self.__screen.blit(loss_text, text_rect.topleft)
+
+            loss_text = pg.font.Font(None, 48).render("You Lost", True, (0, 0, 0))
+            text_rect = loss_text.get_rect()
+            text_rect.center = (self.__screen.get_width() // 2, 300)
+            pg.draw.rect(self.__screen, (255, 0, 0), text_rect.inflate(20, 10))
+            self.__screen.blit(loss_text, text_rect.topleft)
+
             loss_text = pg.font.Font(None, 36).render("press 'r' to restart", True, (0, 0, 0))
-            self.__screen.blit(loss_text, (200,400))
+            text_rect = loss_text.get_rect()
+            text_rect.center = (self.__screen.get_width() // 2, 400)
+            pg.draw.rect(self.__screen, (255, 0, 0), text_rect.inflate(20, 10))
+            self.__screen.blit(loss_text, text_rect.topleft)
+
             self.__isphase1 = False
             self.__isphase2 = False
             self.__isphase3 = False
@@ -218,16 +230,31 @@ class RunGame:
             if pg.key.get_pressed()[pg.K_r]:
                 self.reset()
         elif self.__is_win:
+            self.__screen.blit(self.__background3,(0,0))
             win_text = pg.font.Font(None, 36).render("Game Over", True, (0, 0, 0))
-            self.__screen.blit(win_text, (200,200))
-            win_text = pg.font.Font(None, 36).render("You win", True, (0, 0, 0))
-            self.__screen.blit(win_text, (200,350))
+            text_rect = win_text.get_rect()
+            text_rect.center = (self.__screen.get_width() // 2, 100)
+            pg.draw.rect(self.__screen, (0,255,0), text_rect.inflate(20, 10))
+            self.__screen.blit(win_text, text_rect.topleft)
+
+            win_text = pg.font.Font(None, 72).render("You win", True, (0, 0, 0))
+            text_rect = win_text.get_rect()
+            text_rect.center = (self.__screen.get_width() // 2, self.__screen.get_height() // 2)
+            pg.draw.rect(self.__screen, (0,255,0), text_rect.inflate(20, 10))
+            self.__screen.blit(win_text, text_rect.topleft)
+
             win_text = pg.font.Font(None, 36).render("press 'r' to restart", True, (0, 0, 0))
-            self.__screen.blit(win_text, (200,550))
+            text_rect = win_text.get_rect()
+            text_rect.center = (self.__screen.get_width() // 2, self.__screen.get_height() - 100)
+            pg.draw.rect(self.__screen, (0,255,0), text_rect.inflate(20, 10))
+            self.__screen.blit(win_text, text_rect.topleft)
+
+
+            if self.__isphase3:
+                SoundEffects.get_instance().play("game_win")
             self.__isphase1 = False
             self.__isphase2 = False
             self.__isphase3 = False
-            SoundEffects.get_instance().play("game_win")
             if pg.key.get_pressed()[pg.K_r]:
                 self.reset()
 
@@ -295,8 +322,9 @@ class RunGame:
 
     def run_game(self):
         while self.__is_run:
-            self.game_event()
             self.draw_game()
+            self.game_event()
+            # self.draw_game()
             pg.display.update()
 
 if __name__ == '__main__':
