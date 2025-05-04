@@ -80,7 +80,7 @@ class RunGame:
             self.__player.set_dmg(15)
             self.__player.set_pic(self.__white_queen)
             self.__player.set_attacking("gun")
-            self.__player.set_attack_cooldown(500)
+            self.__player.set_attack_cooldown(250)
             self.__is_queen = True
         if pg.key.get_pressed()[pg.K_3] and Player.get_coin() >= 5 and self.__player.get_health() < self.__player.get_max_health():
             Player.change_coin(-5)
@@ -135,7 +135,7 @@ class RunGame:
 
     def phase2(self):
         if not self.__is_created_enemies:
-            self.__create_enemies(10, lambda: BlackBishop(self.__player))
+            self.__create_enemies(9, lambda: BlackBishop(self.__player))
             self.__is_created_enemies = True
         self.__player.player_movement(self.__is_in_shop)
         self.__player.player_attack(enemies.get_enemies_list())
@@ -232,6 +232,9 @@ class RunGame:
                 self.reset()
 
     def draw_game(self):
+        back_layer = pg.Surface([800,600], pg.SRCALPHA, 32)
+        back_layer = back_layer.convert_alpha()
+        self.__screen.blit(back_layer, (0,0))
         if self.__isphase1 or self.__isphase2:
             self.__screen.blit(self.__backgrounds[1], (-self.__player.get_position()[0],0))
             self.__screen.blit(self.__backgrounds[2], (-self.__player.get_position()[0] + 800, 0))
