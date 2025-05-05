@@ -2,11 +2,12 @@ import pygame as pg
 from player import Player
 import random
 import time
-from Bullet import Bullet
 
 class enemies:
     __enemies_list = []
-    _spawn_position = []
+    __time_survived_list = []
+    __attack_count_list = []
+    __distance_travelled_list = []
 
     def __init__(self, picture, speed, health):
         self._direction = ""
@@ -17,7 +18,6 @@ class enemies:
         self._speed = speed
         self._health = health
         self._distance_traveled = 0
-        enemies._spawn_position.append(tuple(self._position))
         self._attack_count = 0
         self.__start_timer = time.time()
         self.__end_timer = 0
@@ -44,8 +44,11 @@ class enemies:
     def get_attacked(self, decrease_health):
         self._health -= decrease_health
         if self._health <= 0:
+            enemies.__attack_count_list.append(self._attack_count)
+            enemies.__distance_travelled_list.append(round(self._distance_traveled,2))
             self.__end_timer = time.time()
-            self._time_survived = self.__start_timer - self.__end_timer
+            self._time_survived = self.__end_timer -  self.__start_timer
+            enemies.__time_survived_list.append(round(self._time_survived,2))
             enemies.__enemies_list.remove(self)
             Player.change_coin(int(random.random() * 3) + 7)
 
@@ -64,6 +67,30 @@ class enemies:
     @classmethod
     def delete_enemies(cls, enemy):
         cls.__enemies_list.remove(enemy)
+
+    @classmethod
+    def get_survive_time(cls):
+        return cls.__time_survived_list
+    
+    @classmethod
+    def get_attack_count_list(cls):
+        return cls.__attack_count_list
+    
+    @classmethod
+    def get_distance_travelled_list(cls):
+        return cls.__distance_travelled_list
+    
+    @classmethod
+    def set_time_survived(cls, _list):
+        cls.__time_survived_list = _list
+
+    @classmethod
+    def set_attack_count(cls, _list):
+        cls.__attack_count_list = _list
+
+    @classmethod
+    def set_distance_travelled(cls, _list):
+        cls.__distance_travelled_list = _list
 
     def set_end_timer(self, stopped_time):
         self.__end_timer = stopped_time

@@ -97,6 +97,10 @@ class BlackBishop(enemies):
 
         current_time = pg.time.get_ticks()
         if current_time - self.__last_attack_time >= 2000:
+            if self._direction == "right":
+                self._position[0] -= 0.25
+            else:
+                self._position[0] += 0.25
             Bullet.create_bullet(self, "enemy")
             self.__last_attack_time = current_time
         Bullet.bullet_movement(2,"enemy")

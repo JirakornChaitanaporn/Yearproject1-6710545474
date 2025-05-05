@@ -7,6 +7,9 @@ from Sound import SoundEffects
 
 class Player:
     __coin = 0
+    __time_taken_each_wave = []
+    __damage_taken_each_wave = []
+
     def __init__(self, picture, weapon):
         self.__pic = pg.transform.scale(pg.image.load(picture), (60, 60))
         self.__speed = 1.5
@@ -19,7 +22,7 @@ class Player:
         self.__left_queen = pg.transform.scale(self.__left_queen, (60, 60))
         self.__health = 70.0
         self.__max_health = 70.0
-        self.__dmg = 2.0
+        self.__dmg = 3#change to debug(default == 3)
         self.__weapon = weapon
         self.__sword_is_left = 0
         self.__is_attacking = False
@@ -145,9 +148,13 @@ class Player:
                 else:
                     SoundEffects.get_instance().play("player_shot", 0.1)
                     Bullet.create_bullet(self, "player")
+                    if self.__pic == self.__right_queen:
+                        self.__position[0] -= 0.25
+                    else:
+                        self.__position[0] += 0.25
                     self.__last_attack_time = current_time
             PlayerSkill.move_player_skill()
-            Bullet.bullet_movement(15, "player")
+            Bullet.bullet_movement(8, "player")
 
             for bullet in Bullet.get_player_bullet():
                 for enemies in enemies_list:
@@ -172,7 +179,32 @@ class Player:
     def set_coin(cls, coin):
         cls.__coin = coin 
 
+    @classmethod
+    def get_time_taken_each_wave(cls):
+        return cls.__time_taken_each_wave
+    
+    @classmethod
+    def add_time_taken_each_wave(cls, time):
+        cls.__time_taken_each_wave.append(time)
+
+    @classmethod
+    def get_damage_taken(cls):
+        return cls.__damage_taken_each_wave.copy()
+    
+    @classmethod
+    def add_damage_taken(cls, damage):
+        cls.__damage_taken_each_wave.append(damage)
+
+    @classmethod
+    def set_time_taken(cls, _list):
+        cls.__time_taken_each_wave = _list
+
+    @classmethod
+    def set_damage_taken(cls, _list):
+        cls.__damage_taken_each_wave = _list
+
     def show_weapon(self, screen, enemies):
+        mouse_x, mouse_y = pg.mouse.get_pos()
         if self.__is_attacking:
             self.__sword_state += 1
             if self.__sword_state == 5:
@@ -182,10 +214,10 @@ class Player:
                 screen.blit(self.__hitting_effect_left, (self.__position[0] + self.__position_to_player*2 -20, self.__position[1] - 5))
             else:
                 screen.blit(self.__hitting_effect_right, (self.__position[0] + self.__position_to_player, self.__position[1] - 5))
-        if self.__position[0] > enemies.get_position()[0]:
+        if self.__position[0] > mouse_x:
             self.__sword_is_left = 1
             self.__position_to_player = -50
-        else:
+        elif self.__position[0] <= mouse_x:
             self.__sword_is_left = 0
             self.__position_to_player  = 40
         self.__current_weapon = self.__weapon[self.__sword_is_left][int(self.__sword_state / 2)]

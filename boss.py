@@ -79,11 +79,15 @@ class Boss(enemies):
                 EnemiesSkill.create_player_skill(self)
                 SoundEffects.get_instance().play("enemy_shot", 0.1)
             else:
+                if self._direction == "right":
+                    self._position[0] -= 0.25
+                else:
+                    self._position[0] += 0.25
                 SoundEffects.get_instance().play("enemy_shot", 0.1)
                 Bullet.create_bullet(self, "enemy")
                 self.__last_attack_time = current_time
         EnemiesSkill.move_enemy_skill()
-        Bullet.bullet_movement(6, "enemy")
+        Bullet.bullet_movement(4, "enemy")
 
         for bullet in Bullet.get_enemy_bullet_list():
             if collision(bullet.get_position(), player.get_position()):
