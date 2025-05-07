@@ -11,7 +11,7 @@ class Player:
     __damage_taken_each_wave = []
 
     def __init__(self, picture, weapon):
-        self.__until_skill = (int(random.random() * 10) + 1)
+        self.__until_skill = 5
         self.__pic = pg.transform.scale(pg.image.load(picture), (60, 60))
         self.__speed = 1.5
         self.__hitting_effect_left = pg.transform.scale(pg.image.load(r"image\right_hit.png"), (50, 40))
@@ -146,12 +146,10 @@ class Player:
                 if self.__until_skill == 0:
                     SoundEffects.get_instance().play("player_shot", 0.1)
                     PlayerSkill.create_player_skill(self)
-                    SoundEffects.get_instance().play("player_shot")
-                    self.__until_skill = (int(random.random() * 10) + 6)
+                    self.__until_skill = (int(random.random() * 6) + 6)
                 else:
                     SoundEffects.get_instance().play("player_shot", 0.1)
                     Bullet.create_bullet(self, "player")
-                    SoundEffects.get_instance().play("player_shot")
                     self.__until_skill -= 1
                     if self.__pic == self.__right_queen:
                         self.__position[0] -= 0.25

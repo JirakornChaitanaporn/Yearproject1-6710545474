@@ -70,7 +70,7 @@ class Datatk(ttk.Frame):
 
     def plot_survival_time(self):
         self.ax_hist.clear()
-        enemy_survival_times = self.orig_df[['Enemy_survival_time']].head(51)
+        enemy_survival_times = self.orig_df[['Enemy_survival_time']].head(50)
         enemy_survival_times.index = range(1, 51)
         
         sns.barplot(x=enemy_survival_times.index, y='Enemy_survival_time', 
@@ -134,3 +134,4 @@ class Datatk(ttk.Frame):
         self.ax_hist.set_ylabel('Distance')
         self.ax_hist.set_title('Distance traveled by enemy')
         self.fig_canvas.draw()
+        

@@ -1,5 +1,4 @@
 import csv
-from enemies import enemies
 from player import Player
 
 class Data_timetaken: #Singleton class
@@ -50,10 +49,11 @@ class Data_timetaken: #Singleton class
                 mean.append("")
 
         wave = []
-        for i in (len(Player.get_time_taken_each_wave())/3):
+        for i in range(len(Player.get_time_taken_each_wave())//3):
             wave.append(1)
             wave.append(2)
             wave.append(3)
+
         self.db = {
             "wave": wave,
             "Time_taken_between_wave": Player.get_time_taken_each_wave(),

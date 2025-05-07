@@ -2,7 +2,6 @@ import pygame as pg
 from enemies import enemies
 import random
 from player import Player
-from block import Block
 import math
 from Bullet import Bullet
 from skill import EnemiesSkill

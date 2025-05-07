@@ -169,6 +169,7 @@ class RunGame:
                 Player.add_time_taken_each_wave(round(self.__time_taken,2))
                 damage_taken = self.__player.get_max_health() - self.__player.get_health()
                 Player.add_damage_taken(round(damage_taken, 2))
+                print(Player.get_time_taken_each_wave())
             self.shopping_phase()
             if pg.key.get_pressed()[pg.K_x]:
                 self.__start_timer = time.time()
@@ -181,7 +182,7 @@ class RunGame:
 
     def phase2(self):
         if not self.__is_created_enemies:
-            self.__create_enemies(9, lambda: BlackBishop(self.__player))
+            self.__create_enemies(8, lambda: BlackBishop(self.__player))
             self.__is_created_enemies = True
             self.__player_ini_health = self.__player.get_health()
         self.__player.player_movement(self.__is_in_shop)
@@ -195,6 +196,7 @@ class RunGame:
                 damage_taken = self.__player_ini_health - self.__player.get_health()
                 Player.add_damage_taken(round(damage_taken,2))
                 Player.add_time_taken_each_wave(round(self.__time_taken,2))
+                print(Player.get_time_taken_each_wave())
             Bullet.clear_enemy_bullet_list()
             Bullet.clear_player_bullet()
             self.shopping_phase()
@@ -246,6 +248,7 @@ class RunGame:
                 damage_taken = self.__player_ini_health - self.__player.get_health()
                 Player.add_damage_taken(round(damage_taken,2))
                 Player.add_time_taken_each_wave(round(self.__time_taken,2))
+                print(Player.get_time_taken_each_wave())
             Bullet.clear_enemy_bullet_list()
             Bullet.clear_player_bullet()
             self.__is_gameover = True
@@ -400,7 +403,6 @@ class RunGame:
         while self.__is_run:
             self.draw_game()
             self.game_event()
-            # self.draw_game()
             pg.display.update()
 
 if __name__ == '__main__':

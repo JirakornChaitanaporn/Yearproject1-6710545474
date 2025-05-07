@@ -1,8 +1,4 @@
 import csv
-import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as py
-import seaborn as sns
 from enemies import enemies
 from player import Player
 

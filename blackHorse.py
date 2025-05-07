@@ -3,7 +3,6 @@ from enemies import enemies
 import random
 from player import Player
 import math
-import time
 
 class BlackHorse(enemies):
     def __init__(self):

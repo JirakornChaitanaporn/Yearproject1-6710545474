@@ -1,5 +1,4 @@
 import pygame as pg
-from random import random
 
 class Block:
     __block = pg.image.load(r"image\block.png")
