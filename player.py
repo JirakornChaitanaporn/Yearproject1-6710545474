@@ -11,6 +11,7 @@ class Player:
     __damage_taken_each_wave = []
 
     def __init__(self, picture, weapon):
+        self.__until_skill = (int(random.random() * 10) + 1)
         self.__pic = pg.transform.scale(pg.image.load(picture), (60, 60))
         self.__speed = 1.5
         self.__hitting_effect_left = pg.transform.scale(pg.image.load(r"image\right_hit.png"), (50, 40))
@@ -142,12 +143,16 @@ class Player:
                             self.__last_attack_time = current_time
         else:
             if current_time - self.__last_attack_time >= self.__attack_cooldown and self.__key_pressed(pg.key.get_pressed()[pg.K_SPACE]):
-                if (int(random.random() * 15) + 1) == 1:
+                if self.__until_skill == 0:
                     SoundEffects.get_instance().play("player_shot", 0.1)
                     PlayerSkill.create_player_skill(self)
+                    SoundEffects.get_instance().play("player_shot")
+                    self.__until_skill = (int(random.random() * 10) + 6)
                 else:
                     SoundEffects.get_instance().play("player_shot", 0.1)
                     Bullet.create_bullet(self, "player")
+                    SoundEffects.get_instance().play("player_shot")
+                    self.__until_skill -= 1
                     if self.__pic == self.__right_queen:
                         self.__position[0] -= 0.25
                     else:
@@ -159,16 +164,19 @@ class Player:
             for bullet in Bullet.get_player_bullet():
                 for enemies in enemies_list:
                     if collision(bullet.get_position(), enemies.get_position()):
-                        SoundEffects.get_instance().play("player_shot")
                         enemies.get_attacked(4)
                         Bullet.remove_player_bullet(bullet)
             for skill in PlayerSkill.get_skill_list():
                 for enemies in enemies_list:
                     if collision(skill.get_position(), enemies.get_position()):
-                        SoundEffects.get_instance().play("player_shot")
                         enemies.set_position([(int(random.random() * 700) + 1), (int(random.random() * 500) + 1)])
                         enemies.get_attacked(10)
                         Bullet.remove_player_bullet(skill)
+
+    def print_skill_status(self, screen,font):
+        skill_status = font.render(f"Until skill: {self.__until_skill}", True, (0, 255, 0))
+        screen.blit(skill_status, (5,580))
+ 
     @classmethod
     def change_coin(cls,coin):
         cls.__coin += coin

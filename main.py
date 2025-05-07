@@ -11,12 +11,16 @@ from skill import PlayerSkill, EnemiesSkill
 from Sound import SoundEffects
 from data import Data
 import time
+from data_vis import Datatk
+from data_for_table import Data_timetaken
+import tkinter as tk
+import tkinter.ttk as ttk
 
 class RunGame:
     def __init__(self):
         pg.init()
         self.__data_instance = Data('database.csv')
-        print(type(self.__data_instance.db))
+        self.__data_time_taken = Data_timetaken("time_taken.csv")
         self.__time_taken = 0
         self.__start_timer = time.time()
         self.__end_timer = 0
@@ -46,18 +50,16 @@ class RunGame:
         
         while ("" in self.__data_instance.db["Damage_taken_each_wave"]):
             self.__data_instance.db["Damage_taken_each_wave"].remove("")
-        while ("" in self.__data_instance.db["Time_taken_between_wave"]):
-            self.__data_instance.db["Time_taken_between_wave"].remove("")
-        while ("" in self.__data_instance.db["Distance_traveled_enem(in10sec)"]):
-            self.__data_instance.db["Distance_traveled_enem(in10sec)"].remove("")
+        while ("" in self.__data_instance.db["Distance_traveled_enemy"]):
+            self.__data_instance.db["Distance_traveled_enemy"].remove("")
         while ("" in self.__data_instance.db["Enemy_survival_time"]):
             self.__data_instance.db["Enemy_survival_time"].remove("")
         while ("" in self.__data_instance.db["Enemy_attack_frequency"]):
             self.__data_instance.db["Enemy_attack_frequency"].remove("")
 
         Player.set_damage_taken(self.__data_instance.db["Damage_taken_each_wave"])
-        Player.set_time_taken(self.__data_instance.db["Time_taken_between_wave"])
-        enemies.set_distance_travelled(self.__data_instance.db["Distance_traveled_enem(in10sec)"])
+        Player.set_time_taken(self.__data_time_taken.db["Time_taken_between_wave"])
+        enemies.set_distance_travelled(self.__data_instance.db["Distance_traveled_enemy"])
         enemies.set_time_survived(self.__data_instance.db["Enemy_survival_time"])
         enemies.set_attack_count(self.__data_instance.db["Enemy_attack_frequency"])
 
@@ -73,10 +75,20 @@ class RunGame:
         play_text = pg.font.Font(None, 36).render("Press E to play", True, (255, 215, 0))
         guide_prompt = pg.font.Font(None, 24).render("Hold h to read guide book", True, (200, 200, 200))
         sound_disable = pg.font.Font(None, 32).render("Press Q to disable sound", True, (65,105,255))
+        show_stat = pg.font.Font(None, 32).render("Press K to view statistic", True, (65,105,255))
         self.__screen.blit(guide_prompt, (285, 375))
         self.__screen.blit(play_text, (295, 250))
         self.__screen.blit(Welcome, (160, 100))
         self.__screen.blit(sound_disable, (255, 450))
+        self.__screen.blit(show_stat, (254, 500))
+        #show stat
+        if self.__key_pressed(pg.K_k):
+            root = tk.Tk()
+            root.title("Game statistic")
+            root.geometry("600x600")
+            app = Datatk(root)
+            root.mainloop()
+
         if pg.key.get_pressed()[pg.K_h]:
             self.__screen.blit(self.__guideline, (0,0))
         if self.__key_pressed(pg.K_e):
@@ -99,22 +111,22 @@ class RunGame:
         self.__is_in_shop = True
         if self.__key_pressed(pg.K_1) and Player.get_coin() >= 10:
             Player.change_coin(-10)
-            self.__player.change_dmg(2)
+            self.__player.change_dmg(2.5)
         if self.__key_pressed(pg.K_2) and Player.get_coin() >= 30 and not self.__is_queen:
             Player.change_coin(-30)
-            self.__player.set_max_health(150.0)
+            self.__player.set_max_health(120.0)
             self.__player.set_speed(4)
             self.__player.set_dmg(18)
             self.__player.set_pic(self.__white_queen)
             self.__player.set_attacking("gun")
-            self.__player.set_attack_cooldown(250)
+            self.__player.set_attack_cooldown(350)
             self.__is_queen = True
         if pg.key.get_pressed()[pg.K_3] and Player.get_coin() >= 5 and self.__player.get_health() < self.__player.get_max_health():
             Player.change_coin(-5)
             self.__player.set_health(self.__player.get_max_health())
         if self.__key_pressed(pg.K_4) and Player.get_coin() >= 15:
             Player.change_coin(-15)
-            self.__player.change_max_health(30)
+            self.__player.change_max_health(12)
 
     def reset(self):
         self.__is_win = False
@@ -154,12 +166,12 @@ class RunGame:
         if len(enemies.get_enemies_list()) == 0 and self.__is_created_enemies:
             if not self.__is_in_shop: # to do wave data
                 self.__time_taken = time.time() - self.__start_timer
-                self.__start_timer = self.__time_taken
                 Player.add_time_taken_each_wave(round(self.__time_taken,2))
                 damage_taken = self.__player.get_max_health() - self.__player.get_health()
                 Player.add_damage_taken(round(damage_taken, 2))
             self.shopping_phase()
             if pg.key.get_pressed()[pg.K_x]:
+                self.__start_timer = time.time()
                 self.__player.set_speed(2.5)
                 self.__is_in_shop = False
                 self.__is_created_enemies = False
@@ -179,8 +191,7 @@ class RunGame:
             enemy.attack(self.__player)
         if len(enemies.get_enemies_list()) == 0 and self.__is_created_enemies:
             if not self.__is_in_shop:
-                self.__time_taken = time.time() -  self.__start_timer
-                self.__start_timer = self.__time_taken
+                self.__time_taken = time.time() - self.__start_timer
                 damage_taken = self.__player_ini_health - self.__player.get_health()
                 Player.add_damage_taken(round(damage_taken,2))
                 Player.add_time_taken_each_wave(round(self.__time_taken,2))
@@ -188,6 +199,7 @@ class RunGame:
             Bullet.clear_player_bullet()
             self.shopping_phase()
             if pg.key.get_pressed()[pg.K_x]:
+                self.__start_timer = time.time()
                 self.__is_in_shop = False
                 self.__is_created_enemies = False
                 self.__is_in_shop = False
@@ -205,7 +217,7 @@ class RunGame:
             return False
         if not self.__is_created_enemies:
             self.__player.set_speed(2.5)
-            self.__create_enemies(3, lambda: Boss(self.__player))
+            self.__create_enemies(4, lambda: Boss(self.__player))
             self.__is_created_enemies = True
             self.__player_ini_health = self.__player.get_health()
 
@@ -229,7 +241,7 @@ class RunGame:
         self.__player.player_attack(enemies.get_enemies_list())
         if len(enemies.get_enemies_list()) == 0 and self.__is_created_enemies:
             if not self.__is_gameover:
-                self.__time_taken = time.time() -  self.__start_timer
+                self.__time_taken = time.time() - self.__start_timer
                 self.__start_timer = self.__time_taken
                 damage_taken = self.__player_ini_health - self.__player.get_health()
                 Player.add_damage_taken(round(damage_taken,2))
@@ -247,6 +259,7 @@ class RunGame:
         for ev in pg.event.get():
             if ev.type == pg.QUIT:
                 self.__data_instance.save_data()
+                self.__data_time_taken.save_data()
                 pg.quit()
                 self.__is_run = False
         if self.__isphase1:
@@ -350,12 +363,13 @@ class RunGame:
             self.__screen.blit(self.__background3, (0,0))
             for enemy in enemies.get_enemies_list():
                 self.__screen.blit(enemy.get_enemy(), enemy.get_position())
-                enemy.print_health(self.__screen, 120)
+                enemy.print_health(self.__screen, 80)
             for block in Block.get_block_list():
                 self.__screen.blit(Block.get_block(), block.get_position())
         elif self.__is_menu:
             self.__screen.blit(self.__menu, (0, 0))
             self.menu()
+        self.__player.print_skill_status(self.__screen,pg.font.Font(None, 36))
         if not self.__is_menu:
             self.__screen.blit(self.__player.get_pic(), self.__player.get_tuple_position())
             self.__player.print_health(self.__screen)

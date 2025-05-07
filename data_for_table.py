@@ -1,18 +1,14 @@
 import csv
-import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as py
-import seaborn as sns
 from enemies import enemies
 from player import Player
 
-class Data: #Singleton class
+class Data_timetaken: #Singleton class
 
     __instance = None
 
     def __new__(cls, file_path):
         if cls.__instance is None:
-            cls.__instance = super(Data, cls).__new__(cls)
+            cls.__instance = super(Data_timetaken, cls).__new__(cls)
         return cls.__instance
 
     def __init__(self, file_path): 
@@ -21,14 +17,14 @@ class Data: #Singleton class
 
     @classmethod
     def get_instance(cls):
-        if Data.__instance is None:
-            Data()
-        return Data.__instance
+        if Data_timetaken.__instance is None:
+            Data_timetaken()
+        return Data_timetaken.__instance
 
     def load_data(self):
         self.db = {}
 
-        with open("database.csv", "r") as fp:
+        with open("time_taken.csv", "r") as fp:
             reader = csv.reader(fp)
             headers = next(reader)
             for header in headers:
@@ -42,11 +38,26 @@ class Data: #Singleton class
         return self.db
 
     def save_data(self):
+        mean = []
+        for i in range(len(Player.get_time_taken_each_wave())):
+            if i % 3 == 0:
+                average = 0
+                for k in range(3):
+                    average += Player.get_time_taken_each_wave()[i+k]
+                average /= 3
+                mean.append(round(average,2))
+            else:
+                mean.append("")
+
+        wave = []
+        for i in (len(Player.get_time_taken_each_wave())/3):
+            wave.append(1)
+            wave.append(2)
+            wave.append(3)
         self.db = {
-            "Enemy_survival_time": enemies.get_survive_time(),#histogram
-            "Enemy_attack_frequency": enemies.get_attack_count_list(),  #bar
-            "Damage_taken_each_wave": Player.get_damage_taken(),#box
-            "Distance_traveled_enemy": enemies.get_distance_travelled_list() #scatter
+            "wave": wave,
+            "Time_taken_between_wave": Player.get_time_taken_each_wave(),
+            "mean_of_3_wave":mean
         }
 
         with open(self.file_path, "w", newline="") as file:

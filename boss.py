@@ -10,7 +10,7 @@ from Sound import SoundEffects
 
 class Boss(enemies):
     def __init__(self, player:Player):
-        super().__init__(r"image\blackKingLeft.png",2.5, 120)
+        super().__init__(r"image\blackKingLeft.png",2.5, 80)
         self.set_enemy(pg.transform.scale(self.get_enemy(), (60, 60)))
         self._picture = r"image\blackKingLeft.png"
         self.__left_king = pg.transform.scale(pg.image.load(self._picture), (60, 60))
