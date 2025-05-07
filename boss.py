@@ -76,13 +76,13 @@ class Boss(enemies):
         if current_time - self.__last_attack_time >= 850:
             if (int(random.random() * 20) + 1) == 1:
                 EnemiesSkill.create_player_skill(self)
-                SoundEffects.get_instance().play("enemy_shot", 0.1)
+                SoundEffects.get_instance().play("enemy_shot", 0.05)
             else:
                 if self._direction == "right":
                     self._position[0] -= 0.25
                 else:
                     self._position[0] += 0.25
-                SoundEffects.get_instance().play("enemy_shot", 0.1)
+                SoundEffects.get_instance().play("enemy_shot", 0.05)
                 Bullet.create_bullet(self, "enemy")
                 self.__last_attack_time = current_time
         EnemiesSkill.move_enemy_skill()
