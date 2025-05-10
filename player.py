@@ -21,9 +21,9 @@ class Player:
         self.__right_queen = pg.transform.scale(self.__right_queen, (60, 60))
         self.__left_queen = pg.image.load(r"image\white_queen_left.png")
         self.__left_queen = pg.transform.scale(self.__left_queen, (60, 60))
-        self.__health = 70.0
-        self.__max_health = 70.0
-        self.__dmg = 2
+        self.__health = 50
+        self.__max_health = 50
+        self.__dmg = 1.25
         self.__weapon = weapon
         self.__sword_is_left = 0
         self.__is_attacking = False
@@ -163,13 +163,13 @@ class Player:
                 for enemies in enemies_list:
                     if collision(bullet.get_position(), enemies.get_position()):
                         enemies.get_attacked(4)
-                        Bullet.remove_player_bullet(bullet)
+                        # Bullet.remove_player_bullet(bullet)
             for skill in PlayerSkill.get_skill_list():
                 for enemies in enemies_list:
                     if collision(skill.get_position(), enemies.get_position()):
                         enemies.set_position([(int(random.random() * 700) + 1), (int(random.random() * 500) + 1)])
                         enemies.get_attacked(10)
-                        Bullet.remove_player_bullet(skill)
+                        # Bullet.remove_player_bullet(skill)
 
     def print_skill_status(self, screen,font):
         skill_status = font.render(f"Until skill: {self.__until_skill}", True, (0, 255, 0))

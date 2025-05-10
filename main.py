@@ -114,12 +114,12 @@ class RunGame:
             if self.__is_queen:
                 self.__player.change_dmg(2.5)
             else:
-                self.__player.change_dmg(0.125)
+                self.__player.change_dmg(0.05)
         if self.__key_pressed(pg.K_2) and Player.get_coin() >= 30 and not self.__is_queen:
             Player.change_coin(-30)
-            self.__player.set_max_health(140.0)
+            self.__player.set_max_health(120.0)
             self.__player.set_speed(7)
-            self.__player.set_dmg(18)
+            self.__player.set_dmg(17)
             self.__player.set_pic(self.__white_queen)
             self.__player.set_attacking("gun")
             self.__player.set_attack_cooldown(350)
