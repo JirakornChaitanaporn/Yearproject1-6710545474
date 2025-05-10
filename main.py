@@ -111,7 +111,10 @@ class RunGame:
         self.__is_in_shop = True
         if self.__key_pressed(pg.K_1) and Player.get_coin() >= 10:
             Player.change_coin(-10)
-            self.__player.change_dmg(2.5)
+            if self.__is_queen:
+                self.__player.change_dmg(2.5)
+            else:
+                self.__player.change_dmg(0.125)
         if self.__key_pressed(pg.K_2) and Player.get_coin() >= 30 and not self.__is_queen:
             Player.change_coin(-30)
             self.__player.set_max_health(140.0)
