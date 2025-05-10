@@ -222,7 +222,7 @@ class RunGame:
             return False
         if not self.__is_created_enemies:
             self.__player.set_speed(3)
-            self.__create_enemies(5, lambda: Boss(self.__player))
+            self.__create_enemies(4, lambda: Boss(self.__player))
             self.__is_created_enemies = True
             self.__player_ini_health = self.__player.get_health()
 
@@ -304,11 +304,13 @@ class RunGame:
             text_rect.center = (self.__screen.get_width() // 2, 400)
             pg.draw.rect(self.__screen, (255, 0, 0), text_rect.inflate(20, 10))
             self.__screen.blit(loss_text, text_rect.topleft)
-
+            if self.__isphase1 or\
+            self.__isphase2 or\
+            self.__isphase3:
+                self.__isphase1
             self.__isphase1 = False
             self.__isphase2 = False
             self.__isphase3 = False
-            SoundEffects.get_instance().play("game_loss")
             if pg.key.get_pressed()[pg.K_r]:
                 self.reset()
         elif self.__is_win:

@@ -96,7 +96,6 @@ class Boss(enemies):
 
         for skill in EnemiesSkill.get_skill_list():
             if collision(skill.get_position(), player.get_position()):
-                SoundEffects.get_instance().play("enemy_shot")
                 player.decrease_health(2.1)
                 self._attack_count += 1
                 EnemiesSkill.remove_skill_list(skill)

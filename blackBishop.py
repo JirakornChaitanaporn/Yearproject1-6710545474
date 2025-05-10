@@ -102,12 +102,12 @@ class BlackBishop(enemies):
             else:
                 self._position[0] += 0.25
             Bullet.create_bullet(self, "enemy")
+            SoundEffects.get_instance().play("enemy_shot")
             self.__last_attack_time = current_time
         Bullet.bullet_movement(2,"enemy")
 
         for bullet in Bullet.get_enemy_bullet_list():
             if collision(bullet.get_position(), player.get_position()):
-                SoundEffects.get_instance().play("enemy_shot")
                 player.decrease_health(3.5)
                 self._attack_count += 1
                 Bullet.remove_enemy_bullet_list(bullet)
