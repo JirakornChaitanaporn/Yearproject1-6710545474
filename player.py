@@ -13,7 +13,7 @@ class Player:
     def __init__(self, picture, weapon):
         self.__until_skill = 5
         self.__pic = pg.transform.scale(pg.image.load(picture), (60, 60))
-        self.__speed = 1.5
+        self.__speed = 2
         self.__hitting_effect_left = pg.transform.scale(pg.image.load(r"image\right_hit.png"), (50, 40))
         self.__hitting_effect_right = pg.transform.scale(pg.image.load(r"image\left_hit.png"), (50, 40))
         self.__position = [5.0, 5.0]
