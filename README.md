@@ -3,21 +3,21 @@
 ## Running the Application
 
 Check if Git is Installed  
-- **Windows**: Open Command Prompt (`cmd`) and type: `git --version`  
+- **Windows**: Open Command Prompt (`cmd`)(go to search then type cmd) and type: `git --version`  
 - **MacOS**: Open Terminal (`⌘ Command + Space`, search for "Terminal") and type: `git --version`  
 
 Download Git (If Not Installed)  
 - [Download Git](https://git-scm.com/downloads) and follow the installation instructions.  
 
-Download Python ≥ 3.12.7  
-- [Download Python](http://python.org/downloads) and install the latest version.  
+Download Python ≥ 3.12.7: (python --verion to check if you have it)
+- [Download Python](http://python.org/downloads) and install the latest version, or use microsoft store.
 
 Clone the Repository  
 - Open Command Prompt (Windows) or Terminal (MacOS) and run:  
   `git clone https://github.com/JirakornChaitanaporn/Yearproject1-6710545474.git`  
 
 Change to the Project Directory  
-- If needed, navigate to the project folder:  
+- If needed, navigate to the project folder(paste in cmd or terminal):  
   `cd Yearproject1-6710545474`  
 
 Install Required Libraries  
