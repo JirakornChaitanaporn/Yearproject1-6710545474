@@ -20,9 +20,21 @@ Change to the Project Directory
 - If needed, navigate to the project folder(paste in cmd or terminal):  
   `cd Yearproject1-6710545474`  
 
-Install Required Libraries  
+Install Required Libraries
+*First method
 - **Windows**: `pip install -r requirements.txt` or `python -m pip install -r requirements.txt`  
-- **MacOS**: `python3 -m pip install -r requirements.txt`  
+- **MacOS**: `python3 -m pip install -r requirements.txt`
+*Second method
+- **Windows**: `python -m pip install pygame`
+                `python -m pip install numpy`
+                `python -m pip install matplotlib`
+                `python -m pip install pandas`
+                `python -m pip install seaborn`
+- **MacOs**: `python3 -m pip install pygame`
+            `python3 -m pip install numpy`
+            `python3 -m pip install matplotlib`
+            `python3 -m pip install pandas`
+            `python3 -m pip install seaborn`
 
 Run the Python Application  
 - **Windows**: `python main.py`  
