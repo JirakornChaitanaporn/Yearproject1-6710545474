@@ -6,7 +6,10 @@ pygame >= 2.6.1 using "pythom -m pip install pygame"
 
 
 Instructions
+Download git
+Download python>=3.12.7(http://python.org/downloads/)
 Clone the repository:
+Open cmd and type
 git clone https://github.com/JirakornChaitanaporn/Yearproject1-6710545474.git
 Create a virtual environment and install dependencies
 Change your directory to the folder

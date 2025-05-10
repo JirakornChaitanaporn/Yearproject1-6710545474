@@ -169,7 +169,6 @@ class RunGame:
                 Player.add_time_taken_each_wave(round(self.__time_taken,2))
                 damage_taken = self.__player.get_max_health() - self.__player.get_health()
                 Player.add_damage_taken(round(damage_taken, 2))
-                print(Player.get_time_taken_each_wave())
             self.shopping_phase()
             if pg.key.get_pressed()[pg.K_x]:
                 self.__start_timer = time.time()
@@ -196,7 +195,6 @@ class RunGame:
                 damage_taken = self.__player_ini_health - self.__player.get_health()
                 Player.add_damage_taken(round(damage_taken,2))
                 Player.add_time_taken_each_wave(round(self.__time_taken,2))
-                print(Player.get_time_taken_each_wave())
             Bullet.clear_enemy_bullet_list()
             Bullet.clear_player_bullet()
             self.shopping_phase()
@@ -248,7 +246,6 @@ class RunGame:
                 damage_taken = self.__player_ini_health - self.__player.get_health()
                 Player.add_damage_taken(round(damage_taken,2))
                 Player.add_time_taken_each_wave(round(self.__time_taken,2))
-                print(Player.get_time_taken_each_wave())
             Bullet.clear_enemy_bullet_list()
             Bullet.clear_player_bullet()
             self.__is_gameover = True
