@@ -114,7 +114,7 @@ class Player:
                     self.__position[0] -= self.__speed
                     self.__pic = self.__left_queen
             mouse_x, mouse_y = pg.mouse.get_pos()
-            if self.__position[0] > mouse_x:
+            if self.__position[0] < mouse_x:
                 self.__direction = "right"
             else:
                 self.__direction = "left"
