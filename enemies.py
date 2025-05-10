@@ -5,7 +5,6 @@ import time
 
 class enemies:
     __enemies_list = []
-    #for data collection
     __time_survived_list = []
     __attack_count_list = []
     __distance_travelled_list = []
