@@ -133,6 +133,7 @@ class RunGame:
         self.__is_gameover = False
         self.__is_menu = False
         self.__isphase1 = True
+        self.__is_queen = False
         enemies.clear_enemies()
         self.__is_created_enemies = False
         Bullet.clear_enemy_bullet_list()
@@ -216,7 +217,7 @@ class RunGame:
                 return True
             return False
         if not self.__is_created_enemies:
-            self.__player.set_speed(2.5)
+            self.__player.set_speed(3)
             self.__create_enemies(4, lambda: Boss(self.__player))
             self.__is_created_enemies = True
             self.__player_ini_health = self.__player.get_health()
