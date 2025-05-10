@@ -119,7 +119,7 @@ class RunGame:
             Player.change_coin(-30)
             self.__player.set_max_health(120.0)
             self.__player.set_speed(7)
-            self.__player.set_dmg(20)
+            self.__player.set_dmg(4)
             self.__player.set_pic(self.__white_queen)
             self.__player.set_attacking("gun")
             self.__player.set_attack_cooldown(350)
