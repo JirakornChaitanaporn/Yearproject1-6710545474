@@ -25,6 +25,7 @@ Install Required Libraries
 - **Windows**: `pip install -r requirements.txt` or `python -m pip install -r requirements.txt`  
 - **MacOS**: `python3 -m pip install -r requirements.txt`
 *Second method
+Type this one by one
 - **Windows**: `python -m pip install pygame`
                 `python -m pip install numpy`
                 `python -m pip install matplotlib`
@@ -43,9 +44,10 @@ Run the Python Application
 ## How to Play  
 
 Control/keybind
-- **Menu Navigation**: Press `E` to start the game.  
+- **Menu Navigation**: Press `P` to start the game.  
 - **Guidebook**: Hold `H` to read the guidebook.  
-- **Sound**: Press `Q` to toggle sound on/off.  
+- **Sound**: Press `Q` to lower the volume. 
+- **Sound**: Press `E` to raise the volume.  
 - **Statistics**: Press `K` to view player statistics.  
 - **Movement**: Use `WASD` keys to move.  
 - **Attack**: Press `Space` to attack.  

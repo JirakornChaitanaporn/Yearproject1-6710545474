@@ -42,7 +42,7 @@ class Data_timetaken: #Singleton class
             if i % 3 == 0:
                 average = 0
                 for k in range(3):
-                    average += int(Player.get_time_taken_each_wave()[i+k])
+                    average += float(Player.get_time_taken_each_wave()[i+k])
                 average /= 3
                 mean.append(round(average,2))
             else:

@@ -3,6 +3,7 @@ import pygame as pg
 class SoundEffects:
     __instance = None
     __available_sound = True
+    __volume = 0.1
 
     def __init__(self):
         if SoundEffects.__instance is None:
@@ -25,11 +26,11 @@ class SoundEffects:
             SoundEffects.__instance = SoundEffects()
         return SoundEffects.__instance    
 
-    def play(self, effect, volume=1.0):
+    def play(self, effect):
         if effect in self.__effects:
             if self.__available_sound:
                 sound = self.__effects[effect]
-                sound.set_volume(volume)  # Set the volume before playing
+                sound.set_volume(SoundEffects.__volume)  # Set the volume before playing
                 sound.play()
 
     @classmethod
@@ -39,3 +40,7 @@ class SoundEffects:
     @classmethod
     def set_available_sound(cls, is_sound):
         cls.__available_sound = is_sound
+
+    @classmethod
+    def set_volume(cls, volume):
+        cls.__volume = volume

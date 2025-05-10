@@ -69,10 +69,11 @@ class RunGame:
                               pg.transform.scale(pg.image.load(r"image\bg4.jpg"), (800, 600))]
         self.__screen = pg.display.set_mode((Config.get('WIN_SIZE_W'), Config.get('WIN_SIZE_H')))
         pg.display.set_caption("Rogue-like Chess")
+        self.__volume = 0.1
 
     def menu(self):
         Welcome = pg.font.Font(None, 48).render("Welcome to Rogue-like chess", True, (255,255,255))
-        play_text = pg.font.Font(None, 36).render("Press E to play", True, (255, 215, 0))
+        play_text = pg.font.Font(None, 36).render("Press p to play", True, (255, 215, 0))
         guide_prompt = pg.font.Font(None, 24).render("Hold h to read guide book", True, (200, 200, 200))
         sound_disable = pg.font.Font(None, 32).render("Press Q to disable sound", True, (65,105,255))
         show_stat = pg.font.Font(None, 32).render("Press K to view statistic", True, (65,105,255))
@@ -91,7 +92,7 @@ class RunGame:
 
         if pg.key.get_pressed()[pg.K_h]:
             self.__screen.blit(self.__guideline, (0,0))
-        if self.__key_pressed(pg.K_e):
+        if self.__key_pressed(pg.K_p):
             self.reset()
 
     
@@ -221,7 +222,7 @@ class RunGame:
             return False
         if not self.__is_created_enemies:
             self.__player.set_speed(3)
-            self.__create_enemies(4, lambda: Boss(self.__player))
+            self.__create_enemies(5, lambda: Boss(self.__player))
             self.__is_created_enemies = True
             self.__player_ini_health = self.__player.get_health()
 
@@ -276,11 +277,13 @@ class RunGame:
             self.endlessmode()
         if self.__is_gameover:
             self.gameover()
-        if self.__key_pressed(pg.K_q):
-            if SoundEffects.get_available_sound():
-                SoundEffects.set_available_sound(False)
-            else:
-                SoundEffects.set_available_sound(True)
+        if self.__key_pressed(pg.K_q) and self.__volume > 0:
+            self.__volume -= 0.01
+            SoundEffects.set_volume(self.__volume)
+        elif  self.__key_pressed(pg.K_e) and self.__volume < 0.1:
+            self.__volume += 0.01
+            SoundEffects.set_volume(self.__volume)
+
         
         #for gameover
         if self.__player.get_health() <= 0:#when loss
@@ -394,7 +397,7 @@ class RunGame:
             self.__player.print_coin(self.__screen, pg.font.Font(None, 36))
 
         #sound
-        sound_status = pg.font.Font(None, 28).render(f"Sound is playing: {SoundEffects.get_available_sound()}", True,\
+        sound_status = pg.font.Font(None, 28).render(f"Sound is playing: {round(self.__volume * 1000)}", True,\
                                     (0,255,0))
         self.__screen.blit(sound_status,\
                            sound_status.get_rect(bottomright=(800 - 10, 600 - 10)))

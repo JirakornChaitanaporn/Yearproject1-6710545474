@@ -105,13 +105,13 @@ class Player:
                     self.__position[0] += self.__speed
                 elif keys[pg.K_a] and self.__position[0] >= 0:
                     self.__position[0] -= self.__speed
-            mouse_x, mouse_y = pg.mouse.get_pos()
-            if self.__position[0] < mouse_x:
-                self.__direction = "right"
-                self.__pic = self.__right_queen
-            else:
-                self.__direction = "left"
-                self.__pic = self.__left_queen
+                mouse_x, mouse_y = pg.mouse.get_pos()
+                if self.__position[0] < mouse_x:
+                    self.__direction = "right"
+                    self.__pic = self.__right_queen
+                else:
+                    self.__direction = "left"
+                    self.__pic = self.__left_queen
 
     def __get_distance(self, pos1, pos2):
         return math.sqrt((pos1[0] - pos2[0])**2 + (pos1[1] - pos2[1])**2)
@@ -133,17 +133,17 @@ class Player:
                             ((self.__sword_is_left and (self.__position[0]> enemy.get_position()[0]))or \
                              (not self.__sword_is_left and (self.__position[0] < enemy.get_position()[0]))):#correct collision by using swing animation laterrrrr
                             self.__is_attacking = True
-                            SoundEffects.get_instance().play("player_shot", 0.1)
+                            SoundEffects.get_instance().play("player_shot")
                             enemy.get_attacked(self.__dmg)
                             self.__last_attack_time = current_time
         else:
             if current_time - self.__last_attack_time >= self.__attack_cooldown and self.__key_pressed(pg.key.get_pressed()[pg.K_SPACE]):
                 if self.__until_skill == 0:
-                    SoundEffects.get_instance().play("player_shot", 0.1)
+                    SoundEffects.get_instance().play("player_shot")
                     PlayerSkill.create_player_skill(self)
                     self.__until_skill = (int(random.random() * 6) + 6)
                 else:
-                    SoundEffects.get_instance().play("player_shot", 0.1)
+                    SoundEffects.get_instance().play("player_shot")
                     Bullet.create_bullet(self, "player")
                     self.__until_skill -= 1
                     if self.__pic == self.__right_queen:
@@ -166,7 +166,10 @@ class Player:
                         enemies.get_attacked(self.__dmg + 5)
 
     def print_skill_status(self, screen,font):
-        skill_status = font.render(f"Until skill: {self.__until_skill}", True, (0, 255, 0))
+        if self.__until_skill != 0:
+            skill_status = font.render(f"Until skill: {self.__until_skill}", True, (255, 0, 0))
+        else:
+            skill_status = font.render(f"Until skill: {self.__until_skill}", True, (0, 255, 0))
         screen.blit(skill_status, (5,580))
  
     @classmethod

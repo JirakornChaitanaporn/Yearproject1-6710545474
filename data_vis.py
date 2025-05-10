@@ -1,3 +1,4 @@
+import numpy as np
 import tkinter as tk
 import tkinter.ttk as ttk
 import matplotlib
@@ -98,17 +99,29 @@ class Datatk(ttk.Frame):
 
     def plot_time_table(self):
         self.ax_hist.clear()
-        self.ax_hist.axis('off')
-        
-        table = self.ax_hist.table(cellText=self.table_df.values, 
-                                 colLabels=self.table_df.columns, 
-                                 cellLoc='center', 
-                                 loc='center')
+        self.ax_hist.axis('off')  # Completely hide axes
+        self.ax_hist.set_frame_on(False)  # Remove any residual border
+
+        overall_mean_wave3 = self.table_df['Time_taken_between_wave'].mean()
+
+        table_data = [
+            [1, self.table_df.iloc[0]['Time_taken_between_wave'], overall_mean_wave3],
+            [2, self.table_df.iloc[1]['Time_taken_between_wave'], overall_mean_wave3],
+            [3, self.table_df.iloc[2]['Time_taken_between_wave'], overall_mean_wave3]
+        ]
+
+        table = self.ax_hist.table(cellText=table_data, 
+                                colLabels=['Wave Num', 'Mean of Time Taken Each Wave', 'Overall Mean'],
+                                cellLoc='center', 
+                                loc='center')
+
         table.auto_set_font_size(False)
         table.set_fontsize(10)
         table.scale(1, 1.5)
-        self.ax_hist.set_title("Time Taken Data Table")
+
         self.fig_canvas.draw()
+
+
 
     def plot_damage(self):
         self.ax_hist.clear()
