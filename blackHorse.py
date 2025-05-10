@@ -12,16 +12,16 @@ class BlackHorse(enemies):
 
     def movement(self, player: Player):
         speed = random.random() + 0.3
-        if self._position[0] < player.get_position()[0] - 69:
+        if self._position[0] < player.get_position()[0] - 63:
             self._position[0] += speed
             self._distance_traveled += speed
-        elif self._position[0] > player.get_position()[0] + 69:
+        elif self._position[0] > player.get_position()[0] + 63:
             self._position[0] -= speed
             self._distance_traveled += speed
-        if self._position[1] < player.get_position()[1] - 69:
+        if self._position[1] < player.get_position()[1] - 63:
             self._position[1] += speed
             self._distance_traveled += speed
-        elif self._position[1] > player.get_position()[1] + 69:
+        elif self._position[1] > player.get_position()[1] + 63:
             self._position[1] -= speed
             self._distance_traveled += speed
 
