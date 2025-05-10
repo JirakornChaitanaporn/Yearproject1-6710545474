@@ -8,7 +8,7 @@ from Sound import SoundEffects
 
 class BlackBishop(enemies):
     def __init__(self,player:Player):
-        super().__init__(r"image\blackBishopLeft.png", 3, 30.0)
+        super().__init__(r"image\blackBishopLeft.png", 3, 35.0)
         self.set_enemy(pg.transform.scale(self.get_enemy(), (60, 60)))
         self._picture = r"image\blackBishopLeft.png"
         self.__left_bishop = pg.transform.scale(pg.image.load(self._picture), (60, 60))

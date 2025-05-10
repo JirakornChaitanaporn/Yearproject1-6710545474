@@ -163,13 +163,12 @@ class Player:
                 for enemies in enemies_list:
                     if collision(bullet.get_position(), enemies.get_position()):
                         enemies.get_attacked(4)
-                        # Bullet.remove_player_bullet(bullet)
+                        Bullet.remove_player_bullet(bullet)
             for skill in PlayerSkill.get_skill_list():
                 for enemies in enemies_list:
                     if collision(skill.get_position(), enemies.get_position()):
                         enemies.set_position([(int(random.random() * 700) + 1), (int(random.random() * 500) + 1)])
                         enemies.get_attacked(10)
-                        # Bullet.remove_player_bullet(skill)
 
     def print_skill_status(self, screen,font):
         skill_status = font.render(f"Until skill: {self.__until_skill}", True, (0, 255, 0))

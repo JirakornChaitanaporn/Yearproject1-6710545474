@@ -119,7 +119,7 @@ class RunGame:
             Player.change_coin(-30)
             self.__player.set_max_health(120.0)
             self.__player.set_speed(7)
-            self.__player.set_dmg(17)
+            self.__player.set_dmg(20)
             self.__player.set_pic(self.__white_queen)
             self.__player.set_attacking("gun")
             self.__player.set_attack_cooldown(350)
@@ -388,7 +388,7 @@ class RunGame:
         for skill in EnemiesSkill.get_skill_list():
             self.__screen.blit(EnemiesSkill.get_skill(), tuple(skill.get_position()))
         if self.__is_in_shop:
-            self.__screen.blit(self.__shop_background,(0,0))
+            self.__screen.blit(self.__shop_background, (0,0))
             self.__player.print_stat(self.__screen, pg.font.Font(None, 42))
         if self.__is_in_shop: 
             self.__player.print_coin(self.__screen, pg.font.Font(None, 36))
