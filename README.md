@@ -30,7 +30,7 @@ Run the Python Application
 
 ## How to Play  
 
-Controls  
+Control/keybind
 - **Menu Navigation**: Press `E` to start the game.  
 - **Guidebook**: Hold `H` to read the guidebook.  
 - **Sound**: Press `Q` to toggle sound on/off.  
@@ -40,18 +40,17 @@ Controls
 - **Weapon Direction (Rook Mode)**: The sword follows the cursor.  
 - **Shop Controls**: Press `1, 2, 3, 4` to purchase items.  
 
-Game Goal  
+Goal  
 - Defeat all enemies in each wave and enter the **Shop** for upgrades.  
 
-Game Waves  
+More information 
 1. **Wave 1**: Fight against **Knights**.  
 2. **Wave 2**: Battle against **Bishops** (Snipers).  
 3. **Wave 3**: Face **Kings**.  
-   - A **portal** appears in the last wave to escape.  
-   - **Ice barriers** block bullets but not skills.  
+   - A **portal** appears in the last wave to evade the king.  
+   - **Ice barriers** block bullets but not player and enemyvskills.  
    - If you become a **Queen**, check the bottom left to track your hits before the skill activates.  
 
-## Credits  
-- **Images & Sounds**:  
+## Credits Images and Sounds:
   - [Pixabay](https://pixabay.com/)  
   - [Freepik](https://www.freepik.com/)  
