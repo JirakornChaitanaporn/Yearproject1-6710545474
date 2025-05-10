@@ -70,16 +70,3 @@ The data will be represented in a line graph, histogram and scatter plot to show
 |16 april|Full game play|
 |23 april|All data collected|
 |11 May|Data report and animation|
-
-**5. Document version**
-
-Version: *1.0*
-
-Date: *4 March 2025*
-
-|**Date**|**Name**|**Description of Revision, Feedback, Comments**|
-| :- | :- | :- |
-|14/3|Pattapon|<p>Good job. I recommend adding an explanation of each chess piece's abilities, maybe as an in-game instruction. </p><p>Also, you can use bullet points to improve readability of the document. :)</p>|
-|16/3|Phiranath|Don’t forget to remove the italic fonts and reformat some of the sections using a number list or a bullet point, so it would be easier to read. I suggest adding more information about the pieces promoting mechanics, is it player piece or enemy piece. Overall good idea. Good job!|
-|29/3|Pattapon|Good job. There are some suggestions in my comments.|
-|30/3|Phiranath|Good job! Nothing much for me to comment on, only some relationships in the class diagram and the data features.|
