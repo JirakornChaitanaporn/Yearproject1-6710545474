@@ -277,7 +277,7 @@ class RunGame:
             self.endlessmode()
         if self.__is_gameover:
             self.gameover()
-        if self.__key_pressed(pg.K_q) and self.__volume > 0:
+        if self.__key_pressed(pg.K_q) and self.__volume >= 0.01:
             self.__volume -= 0.01
             SoundEffects.set_volume(self.__volume)
         elif  self.__key_pressed(pg.K_e) and self.__volume < 0.1:
