@@ -1,53 +1,57 @@
-Running the Application
+# Yearproject1-6710545474
 
-Instructions
-Check if git exist or not
-Window: go to cmd and type git --version
-MacOs: go to terminal(press command space) then typr git --version
+## Running the Application
 
-Download git(if git does exist) 
-https://git-scm.com/downloads
+Check if Git is Installed  
+- **Windows**: Open Command Prompt (`cmd`) and type: `git --version`  
+- **MacOS**: Open Terminal (`⌘ Command + Space`, search for "Terminal") and type: `git --version`  
 
-Download python>=3.12.7
-http://python.org/downloads/
+Download Git (If Not Installed)  
+- [Download Git](https://git-scm.com/downloads) and follow the installation instructions.  
 
-Clone the repository:
-Open cmd for window or terminal(press command space) for macOS and type
-git clone https://github.com/JirakornChaitanaporn/Yearproject1-6710545474.git
+Download Python ≥ 3.12.7  
+- [Download Python](http://python.org/downloads) and install the latest version.  
 
-Change your directory to the folder (if needed)
-"cd Yearproject1-6710545474"
+Clone the Repository  
+- Open Command Prompt (Windows) or Terminal (MacOS) and run:  
+  `git clone https://github.com/JirakornChaitanaporn/Yearproject1-6710545474.git`  
 
-Install all library by type this
-Window: pip install -r requirements.txt or python -m pip install requirements.txt
-MacOs: python3 -m pip install requirements.txt
+Change to the Project Directory  
+- If needed, navigate to the project folder:  
+  `cd Yearproject1-6710545474`  
 
-Type command to run python file:
-Window: python main.py
-MacOs: python3 main.py
+Install Required Libraries  
+- **Windows**: `pip install -r requirements.txt` or `python -m pip install -r requirements.txt`  
+- **MacOS**: `python3 -m pip install -r requirements.txt`  
 
+Run the Python Application  
+- **Windows**: `python main.py`  
+- **MacOS**: `python3 main.py`  
 
-How to play:
-Press e on menu to start
-Hold h to read guidebook
-Press q to turn on/off sound
-Press k to view statistic
-Press WASD to move
-Press space to attack
-When You are a rook the sword direction will follows the cursor
-In shop, press 1,2,3,4 to buy item in shop
+## How to Play  
 
-Goal:
-Kill all enemy then enter shop in each wave
+Controls  
+- **Menu Navigation**: Press `E` to start the game.  
+- **Guidebook**: Hold `H` to read the guidebook.  
+- **Sound**: Press `Q` to toggle sound on/off.  
+- **Statistics**: Press `K` to view player statistics.  
+- **Movement**: Use `WASD` keys to move.  
+- **Attack**: Press `Space` to attack.  
+- **Weapon Direction (Rook Mode)**: The sword follows the cursor.  
+- **Shop Controls**: Press `1, 2, 3, 4` to purchase items.  
 
-More information:
-There are 3 wave, first wave is you vs knights, 
-second is you vs bishops(they have sniper), 
-and last wave is you vs kings.
-There is a portal in last wave to teleport away from kings.
-Last wave also have ice to block a bullet, but not skill.
-When you become a queen look at the bottom left and see how many hit it take until skill come out.
+Game Goal  
+- Defeat all enemies in each wave and enter the **Shop** for upgrades.  
 
-All credit for picture and sound:
-https://pixabay.com/
-https://www.freepik.com/
+Game Waves  
+1. **Wave 1**: Fight against **Knights**.  
+2. **Wave 2**: Battle against **Bishops** (Snipers).  
+3. **Wave 3**: Face **Kings**.  
+   - A **portal** appears in the last wave to escape.  
+   - **Ice barriers** block bullets but not skills.  
+   - If you become a **Queen**, check the bottom left to track your hits before the skill activates.  
+
+## Credits  
+- **Images & Sounds**:  
+  - [Pixabay](https://pixabay.com/)  
+  - [Freepik](https://www.freepik.com/)  
