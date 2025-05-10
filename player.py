@@ -23,7 +23,7 @@ class Player:
         self.__left_queen = pg.transform.scale(self.__left_queen, (60, 60))
         self.__health = 50
         self.__max_health = 50
-        self.__dmg = 1.25
+        self.__dmg = 1.5
         self.__weapon = weapon
         self.__sword_is_left = 0
         self.__is_attacking = False
@@ -134,7 +134,7 @@ class Player:
         if self.__attack_style == "melee":
             if current_time - self.__last_attack_time >= self.__attack_cooldown and self.__key_pressed(pg.key.get_pressed()[pg.K_SPACE]):
                     for enemy in enemies_list:
-                        if (self.__get_distance([self.__position[0] + 30 + self.__position_to_player, self.__position[1] + 30], enemy.get_position())) <= 90 and\
+                        if (self.__get_distance([self.__position[0] + 30 + self.__position_to_player, self.__position[1] + 30], enemy.get_position())) <= 85 and\
                             ((self.__sword_is_left and (self.__position[0]> enemy.get_position()[0]))or \
                              (not self.__sword_is_left and (self.__position[0] < enemy.get_position()[0]))):#correct collision by using swing animation laterrrrr
                             self.__is_attacking = True
