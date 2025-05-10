@@ -94,29 +94,30 @@ class Player:
                     if keys[pg.K_d] and self.__position[0] <= 750:
                         self.__position[0] += self.__speed
                         self.__pic = self.__right_queen
-                        self.__direction = "right"
+                        # self.__direction = "right"
                     elif keys[pg.K_a] and self.__position[0] >= 0:
                         self.__position[0] -= self.__speed
                         self.__pic = self.__left_queen
-                        self.__direction = "left"
+                        # self.__direction = "left"
                 elif keys[pg.K_s] and self.__position[1] <= 550:
                     self.__position[1] += self.__speed
                     if keys[pg.K_d] and self.__position[0] <= 750:
                         self.__position[0] += self.__speed
                         self.__pic = self.__right_queen
-                        self.__direction = "right"
                     elif keys[pg.K_a] and self.__position[0] >= 0:
                         self.__position[0] -= self.__speed
                         self.__pic = self.__left_queen
-                        self.__direction = "left"
                 elif keys[pg.K_d] and self.__position[0] <= 750:
                     self.__position[0] += self.__speed
                     self.__pic = self.__right_queen
-                    self.__direction = "right"
                 elif keys[pg.K_a] and self.__position[0] >= 0:
                     self.__position[0] -= self.__speed
                     self.__pic = self.__left_queen
-                    self.__direction = "left"
+            mouse_x, mouse_y = pg.mouse.get_pos()
+            if self.__position[0] > mouse_x:
+                self.__direction = "right"
+            else:
+                self.__direction = "left"
 
     def __get_distance(self, pos1, pos2):
         return math.sqrt((pos1[0] - pos2[0])**2 + (pos1[1] - pos2[1])**2)
