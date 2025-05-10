@@ -37,17 +37,6 @@ class Data_timetaken: #Singleton class
         return self.db
 
     def save_data(self):
-        mean = []
-        for i in range(len(Player.get_time_taken_each_wave())):
-            if i % 3 == 0:
-                average = 0
-                for k in range(3):
-                    average += float(Player.get_time_taken_each_wave()[i+k])
-                average /= 3
-                mean.append(round(average,2))
-            else:
-                mean.append("")
-
         wave = []
         for i in range(len(Player.get_time_taken_each_wave())//3):
             wave.append(1)
@@ -57,7 +46,6 @@ class Data_timetaken: #Singleton class
         self.db = {
             "wave": wave,
             "Time_taken_between_wave": Player.get_time_taken_each_wave(),
-            "mean_of_3_wave":mean
         }
 
         with open(self.file_path, "w", newline="") as file:
