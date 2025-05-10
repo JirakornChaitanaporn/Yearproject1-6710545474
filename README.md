@@ -74,4 +74,4 @@ More information
 ## Credits  
 Images and Sounds:  
 - [Pixabay](https://pixabay.com/)  
-- [Freepik](https://www.freepik.com/)  
+- [Freepik](https://www.freepik.com/)
