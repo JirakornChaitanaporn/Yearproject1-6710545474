@@ -1,6 +1,8 @@
 ﻿<a name="_tegym92zswr2"></a>*Rogue-like chess*
 
-youtube link: https://youtu.be/RQh3tzH4Aho?si=eZjMII21trjJ3vma
+**Youtube link:** https://youtu.be/RQh3tzH4Aho?si=eZjMII21trjJ3vma
+
+**Github link:** https://github.com/JirakornChaitanaporn/Yearproject1-6710545474.git
 
 1. ### <a name="_amckximd7rbz"></a>**Project Overview**
 This is a 2D rogue-like game built on pygame. There will be 3 waves, 2 of which the player has to fight enemies, black chess pieces, and collect an item to move on to the lastwave, the boss wave. In the first wave only players use ranged attacks while enemies use melee. Then in the second wave both the player and enemies will use guns and in the last wave it will be player vs boss only. After each wave, players will collect money and buy items with strategy to help proceed: wherever to be upgrading themselves (turning a rook into a queen).
