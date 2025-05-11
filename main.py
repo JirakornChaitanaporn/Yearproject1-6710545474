@@ -75,13 +75,12 @@ class RunGame:
         Welcome = pg.font.Font(None, 48).render("Welcome to Rogue-like chess", True, (255,255,255))
         play_text = pg.font.Font(None, 36).render("Press p to play", True, (255, 215, 0))
         guide_prompt = pg.font.Font(None, 24).render("Hold h to read guide book", True, (200, 200, 200))
-        sound_disable = pg.font.Font(None, 32).render("Press Q to lower sound\n\
-                                                      Press E to turn up volume", True, (65,105,255))
+        sound_disable = pg.font.Font(None, 32).render("Press Q to lower E to turn up volume", True, (65,105,255))
         show_stat = pg.font.Font(None, 32).render("Press K to view statistic", True, (65,105,255))
         self.__screen.blit(guide_prompt, (285, 375))
         self.__screen.blit(play_text, (295, 250))
         self.__screen.blit(Welcome, (160, 100))
-        self.__screen.blit(sound_disable, (255, 450))
+        self.__screen.blit(sound_disable, (190, 450))
         self.__screen.blit(show_stat, (254, 500))
         #show stat
         if self.__key_pressed(pg.K_k):
