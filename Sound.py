@@ -9,7 +9,6 @@ class SoundEffects:
         if SoundEffects.__instance is None:
             pg.mixer.init(frequency=44100, channels=2)
             self.__instance = self
-            print("Sound Effects Initialized")
             self.__effects = {
                 "game_start": pg.mixer.Sound(r"sound\game_start.wav"),
                 "game_win": pg.mixer.Sound(r"sound\game_win.wav"),

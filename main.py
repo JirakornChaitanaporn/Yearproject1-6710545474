@@ -372,7 +372,7 @@ class RunGame:
             self.__screen.blit(self.__background3, (0,0))
             for enemy in enemies.get_enemies_list():
                 self.__screen.blit(enemy.get_enemy(), enemy.get_position())
-                enemy.print_health(self.__screen, 80)
+                enemy.print_health(self.__screen, 100)
             for block in Block.get_block_list():
                 self.__screen.blit(Block.get_block(), block.get_position())
         elif self.__is_menu:
