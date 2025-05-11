@@ -25,7 +25,6 @@ class BlackHorse(enemies):
             self._position[1] -= speed
             self._distance_traveled += speed
 
-        # Repel other enemies
         for other in enemies.get_enemies_list():
             if other != self and hasattr(other, '_position'):
                 dx = self._position[0] - other._position[0]

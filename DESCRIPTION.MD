@@ -70,3 +70,6 @@ The data will be represented in a line graph, histogram and scatter plot to show
 |16 april|Full game play|
 |23 april|All data collected|
 |11 May|Data report and animation|
+
+UML:
+![UML Diagram](uml/uml.png)

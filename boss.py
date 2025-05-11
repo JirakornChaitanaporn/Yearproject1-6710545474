@@ -61,11 +61,9 @@ class Boss(enemies):
 
     def attack(self, player: Player):
         def collision(bullet_pos: list, player_pos: list) -> bool:
-    # Define the dimensions of the player (e.g., 60x60 as per your original logic)
             player_width = 60
             player_height = 60
 
-            # Check for overlap between the bullet and the player
             if (bullet_pos[0] > player_pos[0] and bullet_pos[0] < player_pos[0] + player_width and
                 bullet_pos[1] > player_pos[1] -10 and bullet_pos[1] < player_pos[1] + player_height):
                 return True

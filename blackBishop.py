@@ -66,7 +66,6 @@ class BlackBishop(enemies):
                 self._position[1] -= speed
             self._distance_traveled += math.sqrt(speed**2 + speed**2)
 
-        # Repel other enemies
         for other in enemies.get_enemies_list():
             if other != self and hasattr(other, '_position'):
                 dx = self._position[0] - other._position[0]
@@ -78,13 +77,11 @@ class BlackBishop(enemies):
                     dy /= distance
 
                     repulsion_strength = 1
-                    # self._position[0] += dx * repulsion_strength
                     self._position[1] += dy * repulsion_strength
         self.enemy_in_bound()
     
     def attack(self, player: Player):
         def collision(bullet_pos: list, player_pos: list) -> bool:
-    # Define the dimensions of the player (e.g., 60x60 as per your original logic)
             player_width = 60
             player_height = 60
 

@@ -99,8 +99,8 @@ class Datatk(ttk.Frame):
 
     def plot_time_table(self):
         self.ax_hist.clear()
-        self.ax_hist.axis('off')  # Completely hide axes
-        self.ax_hist.set_frame_on(False)  # Remove any residual border
+        self.ax_hist.axis('off')
+        self.ax_hist.set_frame_on(False)
 
         overall_mean_wave3 = self.table_df['Time_taken_between_wave'].mean()
 
